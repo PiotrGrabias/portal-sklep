@@ -22,19 +22,19 @@ export const useCartStore = defineStore("cart", () => {
     currentItemId.value = itemId;
   };
 
-
+  const removeFromCart = (itemId) => {
+    cartItems.value = cartItems.value.filter((item) => item.id !== itemId);
+    localStorage.setItem("cart", JSON.stringify(cartItems.value));
+  }
   const removeOneItem = (itemId) => {
     cartItems.value = cartItems.value
         .map((item) =>
-            item.id === itemId
-                ? { ...item, quantity: item.quantity - 1 }
-                : item
+            item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
         )
         .filter(item => item.quantity > 0);
-    if(cartItems.value.quantity === 1){
-        cartItems.value = cartItems.value.filter((item) => item.id !== itemId);
-        localStorage.setItem("cart", JSON.stringify(cartItems.value));
-}}
+
+    localStorage.setItem("cart", JSON.stringify(cartItems.value));
+}
   const clearCart = () => {
     cartItems.value = [];
     localStorage.removeItem("cart");
@@ -54,6 +54,7 @@ export const useCartStore = defineStore("cart", () => {
     cartItems,
     currentItemId,
     addToCart,
+    removeFromCart,
     clearCart,
     loadCart,
     removeOneItem,

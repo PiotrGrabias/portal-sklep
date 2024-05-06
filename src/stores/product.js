@@ -22,5 +22,29 @@ export const useProductStore = defineStore('products', {
         console.error("Error fetching products:", error);
       }
     },
+    async getItem(itemId) {
+      try {
+        this.products = await api.get(`/products/${itemId}`);
+        console.log(this.products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    },
+    async getItemsByCategory() {
+      try {
+        this.products = await api.get('/products/?search=ram');
+        console.log(this.products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    },
+    async getItemsByProducer(producer) {
+      try {
+        this.products = await api.get(`/products/?producer=${producer}`);
+        console.log(this.products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    },
   },
 })

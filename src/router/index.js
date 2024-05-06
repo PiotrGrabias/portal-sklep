@@ -10,6 +10,8 @@ import AccountActivation from '@/components/login/AccountActivation.vue'
 import HomePage from '@/components/HomePage.vue'
 import LoginForm from '@/components/login/LoginForm.vue'
 import RegisterForm from '@/components/login/RegisterForm.vue'
+import CartPage from '@/components/layout/CartPage.vue'
+import ProductDetails from '@/components/layout/ProductDetails.vue'
 
 const routes = [
   {
@@ -31,6 +33,16 @@ const routes = [
       path: '/activate/:id/:token',
       name: 'Activate',
       component: AccountActivation,
+    },
+    {
+      path: '/cart/',
+      name: 'Cart',
+      component: CartPage,
+    },
+    {
+      path: '/products/:id',
+      name: 'Product',
+      component: ProductDetails,
     },
 ]
 const router = createRouter({
