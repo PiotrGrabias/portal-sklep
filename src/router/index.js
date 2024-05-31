@@ -44,6 +44,7 @@ const routes = [
       name: 'Product',
       component: ProductDetails,
     },
+
 ]
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

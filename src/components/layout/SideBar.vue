@@ -1,34 +1,118 @@
 <template>
-    <v-navigation-drawer 
-      image="https://wallpaper.dog/large/20420792.jpg"
-      color="grey darken-3" 
-      dark 
-      width="210" 
-      expand-on-hover 
-      rail
-      app 
-    >
-      <v-list dense flat>
-        <v-list-item two-line>
-          <v-list-item-content>
-            <v-list-item-title class="headline">pc-parts</v-list-item-title>
-          </v-list-item-content>
+  <v-navigation-drawer
+    image="https://wallpaper.dog/large/20420792.jpg"
+    color="grey darken-3"
+    dark
+    width="300"
+    expand-on-hover
+    rail
+    app
+  >
+    <v-list dense flat>
+      <v-list-item two-line>
+        <v-list-item-content>
+          <v-list-item-title class="headline">pc-parts</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list-group value="RAM">
+        <template v-slot:activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            title="RAM"
+            prepend-avatar="../../assets/ram.png"
+          ></v-list-item>
+        </template>
+        <v-list-item v-for="(title, i) in ram" :key="i">
+          <v-row no-gutters align="center">
+    <v-col cols="auto">
+      <label class="checkbox-label">{{ title }}</label>
+    </v-col>
+    <v-col cols="auto">
+      <v-checkbox
+        class="white-checkbox"
+        color="warning"
+        v-model="selectedRam"
+        :value="title"
+        hide-details
+      ></v-checkbox>
+    </v-col>
+  </v-row>
         </v-list-item>
-        
-        <v-divider></v-divider> 
-  
-        <v-list-item link to="ram">
-          <v-list-item-title>Pamięć RAM</v-list-item-title>
+      </v-list-group>
+
+      <v-list-group value="procesor">
+        <template v-slot:activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            title="Procesory"
+            prepend-avatar="../../assets/procesor.png"
+          ></v-list-item>
+        </template>
+        <v-list-item v-for="(title, i) in procesory" :key="i">
+          <v-row no-gutters align="center">
+            <v-col cols="auto">
+              <label class="checkbox-label">{{ title }}</label>
+            </v-col>
+            <v-col cols="auto">
+              <v-checkbox
+                class="white-checkbox"
+                color="warning"
+                v-model="selectedProcessors"
+                :value="title"
+                hide-details
+              ></v-checkbox>
+            </v-col>
+          </v-row>
         </v-list-item>
-  
-        <v-list-item link to="procesor">
-          <v-list-item-title>Procesory</v-list-item-title>
+      </v-list-group>
+
+      <v-list-group value="karta">
+        <template v-slot:activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            title="Karty Graficzne"
+            prepend-avatar="../../assets/karta.png"
+          ></v-list-item>
+        </template>
+        <v-list-item v-for="(title, i) in karty" :key="i">
+          <v-row no-gutters align="center">
+            <v-col cols="auto">
+              <label class="checkbox-label">{{ title }}</label>
+            </v-col>
+            <v-col cols="auto">
+              <v-checkbox
+                class="white-checkbox"
+                color="warning"
+                v-model="selectedCards"
+                :value="title"
+                hide-details
+              ></v-checkbox>
+            </v-col>
+          </v-row>
         </v-list-item>
-  
-        <v-list-item link to="kartygraf">
-          <v-list-item-title>Karty Graficzne</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-  </template>
-  
+      </v-list-group>
+    </v-list>
+  </v-navigation-drawer>
+</template>
+
+<script setup>
+import { ref } from "vue";
+const selectedRam = ref([]);
+const selectedCards = ref([]);
+const selectedProcessors = ref([]);
+
+const ram = ["GOODRAM"];
+
+const procesory = ["Intel", "Ryzen"];
+const karty = ["Nvidia"];
+</script>
+
+<style scoped>
+.white-checkbox .v-label {
+  background-color: white;
+  font-size: 18px;
+}
+</style>
