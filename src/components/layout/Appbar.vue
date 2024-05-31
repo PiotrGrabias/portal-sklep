@@ -6,7 +6,8 @@
     <template v-slot:image>
       <v-img></v-img>
     </template>
-    <v-toolbar-title>PC Parts and service</v-toolbar-title>
+    <v-toolbar-title><a href="/" class="no-underline">PC Parts and service
+    <v-icon size="x-large">mdi-home-circle</v-icon></a></v-toolbar-title>
     <v-spacer></v-spacer>
     <p v-if="userStore.isLoggedIn">Witaj {{ userStore.username }}</p>
     <v-btn href="/support"

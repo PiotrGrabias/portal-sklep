@@ -56,5 +56,5 @@ import { computed } from 'vue';
 const cartStore = useCartStore();
 const { cartItems } = storeToRefs(cartStore);
 const { removeFromCart, clearCart, removeOneItem, addToCart } = cartStore;
-const totalItems = computed(() => cartItems.value.reduce((sum, item) => sum + item.quantity, 0));
+const totalItems = computed(() => cartItems.value.length);
 </script>

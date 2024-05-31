@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:8000/';
 
 class GetProducts {
     getData() {
-        return axios.post(API_URL + 'products/', {
+        return axios.post(API_URL + 'products', {
           headers: {
             'Content-Type': 'application/json'}})
       }

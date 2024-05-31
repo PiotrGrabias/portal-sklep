@@ -1,12 +1,20 @@
 <template>
   <v-container>
+        <v-row justify="center" no-gutters>
+      <v-col cols="12">
+        <h1 class="display-1 text-center">Bestsellery</h1>
+      </v-col>
+    </v-row>
     <v-row no-gutters>
       <v-col v-for="prod in products" :key="prod.id" cols="12" sm="6" md="3">
-        <router-link :to="'/products/' + prod.id" custom>
-          <template #default="{ navigate }">
-            <v-card class="ma-2 pa-2" hover rounded="xs" @click="navigate">
+        <a :href="'/products/' + prod.id" class="no-underline" >
+            <v-card
+              class="ma-2 pa-2"
+              hover
+              rounded="xs"
+            >
               <v-img
-                :height="100"
+                :height="150"
                 aspect-ratio="16/9"
                 :src="prod.image_path"
               ></v-img>
@@ -20,14 +28,20 @@
                 <v-btn
                   variant="elevated"
                   color="teal"
-                  @click.stop="addToCart(prod.id, prod.product_name, prod.price, prod.image_path)"
+                  @click.prevent="
+                    addToCart(
+                      prod.id,
+                      prod.product_name,
+                      prod.price,
+                      prod.image_path
+                    )
+                  "
                 >
                   Dodaj do koszyka
                 </v-btn>
               </v-card-actions>
             </v-card>
-          </template>
-        </router-link>
+        </a>
       </v-col>
     </v-row>
   </v-container>
@@ -62,3 +76,10 @@ const products = computed(() => {
 
 
 </script>
+
+<style>
+  .no-underline {
+    text-decoration: none;
+    color: white
+  }
+</style>

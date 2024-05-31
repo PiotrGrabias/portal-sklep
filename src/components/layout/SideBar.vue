@@ -17,15 +17,15 @@
         
         <v-divider></v-divider> 
   
-        <v-list-item link>
+        <v-list-item link to="ram">
           <v-list-item-title>Pamięć RAM</v-list-item-title>
         </v-list-item>
   
-        <v-list-item link>
+        <v-list-item link to="procesor">
           <v-list-item-title>Procesory</v-list-item-title>
         </v-list-item>
   
-        <v-list-item link>
+        <v-list-item link to="kartygraf">
           <v-list-item-title>Karty Graficzne</v-list-item-title>
         </v-list-item>
       </v-list>
