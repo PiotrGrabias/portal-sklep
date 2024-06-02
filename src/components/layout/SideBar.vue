@@ -90,10 +90,14 @@
                 :value="title"
                 hide-details
               ></v-checkbox>
+              
             </v-col>
           </v-row>
         </v-list-item>
       </v-list-group>
+      <v-list-item prepend-icon="mdi-magnify">
+      <v-btn variant="elevated" color="teal">Filtruj</v-btn>
+    </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
