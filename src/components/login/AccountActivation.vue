@@ -10,7 +10,6 @@
               <p>{{ message }}</p>
             </v-card-text>
             <v-card-actions>
-              
             </v-card-actions>
           </v-card>
         </v-col>

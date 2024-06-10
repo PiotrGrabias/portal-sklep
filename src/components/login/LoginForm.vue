@@ -24,7 +24,6 @@
                 required
                 v-model="password"
               ></v-text-field>
-
               <v-container>
                 <v-row>
                   <v-col cols="12" class="text-center">

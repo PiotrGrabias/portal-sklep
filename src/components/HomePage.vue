@@ -2,19 +2,19 @@
   <v-container>
     <v-row no-gutters align="center" justify="center">
   <v-col cols="auto"  class="mx-2">
-    <v-btn href="/procesory" class="display-1 text-center">Procesory</v-btn>
+    <v-btn @click="getCategoryItems('procesor')"  class="display-1 text-center">Procesory</v-btn>
   </v-col>
   <v-col cols="auto"  class="mx-2">
-    <v-btn href="/ram" class="display-1 text-center">RAM</v-btn>
+    <v-btn @click="getCategoryItems('ram')" class="display-1 text-center">RAM</v-btn>
   </v-col>
   <v-col cols="auto"  class="mx-2">
     <h1 class="display-1 text-center">Bestsellery</h1>
   </v-col>
   <v-col cols="auto"  class="mx-2">
-    <v-btn href="/karty" class="display-1 text-center">Karty Graficzne</v-btn>
+    <v-btn @click="getCategoryItems('karta')" class="display-1 text-center">Karty Graficzne</v-btn>
   </v-col>
   <v-col cols="auto"  class="mx-2">
-    <v-btn href="/dyski" class="display-1 text-center">Dyski ssd</v-btn>
+    <v-btn @click="getCategoryItems('dysk')" class="display-1 text-center">Dyski ssd</v-btn>
   </v-col>
 </v-row>
 
@@ -66,15 +66,16 @@ import { useProductStore } from '../stores/product.js';
 import { useCartStore } from '@/stores/cart.js';
 
 const cartStore = useCartStore();
-const productStore = useProductStore();
 const { addToCart } = cartStore;
-
+const productStore = useProductStore();
 onMounted(async () => {
   await productStore.getItems();
-  cartStore.loadCart();
   console.log("Fetched products:", productStore.products);
 });
-
+const getCategoryItems = async(category) => {
+  await productStore.getItemsByCategory(category);
+  console.log('category fetched')
+}
 const products = computed(() => {
   if (Array.isArray(productStore.products.data)) {
     return productStore.products.data.map((product) => ({

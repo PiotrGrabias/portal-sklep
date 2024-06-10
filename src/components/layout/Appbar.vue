@@ -65,16 +65,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useUserStore } from '../../stores/user';
 import { useRouter } from 'vue-router';
+import { useCartStore } from '@/stores/cart.js';
 
-
+const cartStore = useCartStore();
 const userStore = useUserStore();
 const route = useRouter();
 const showSessionExpiredDialog = ref(false);
 const username = ref(localStorage.getItem('user-name'));
-
+onMounted(async () => {
+  cartStore.loadCart();
+});
 const setupTokenTimer = (expiryInSeconds) => {
   setTimeout(() => {
     userStore.logout();
