@@ -1,5 +1,7 @@
 <template>
+  <SideBar :category="currCategory"/>
   <v-container>
+    <div v-if="isCategory">
     <v-row no-gutters align="center" justify="center">
   <v-col cols="auto"  class="mx-2">
     <v-btn @click="getCategoryItems('procesor')"  class="display-1 text-center">Procesory</v-btn>
@@ -17,6 +19,7 @@
     <v-btn @click="getCategoryItems('dysk')" class="display-1 text-center">Dyski ssd</v-btn>
   </v-col>
 </v-row>
+</div>
 
     <v-row no-gutters>
       <v-col v-for="prod in products" :key="prod.id" cols="12" sm="6" md="3">
@@ -61,11 +64,13 @@
 </template>
 
 <script setup>
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useProductStore } from '../stores/product.js';
 import { useCartStore } from '@/stores/cart.js';
 
 const cartStore = useCartStore();
+const isCategory = ref(true);
+const currCategory = ref('');
 const { addToCart } = cartStore;
 const productStore = useProductStore();
 onMounted(async () => {
@@ -74,7 +79,9 @@ onMounted(async () => {
 });
 const getCategoryItems = async(category) => {
   await productStore.getItemsByCategory(category);
-  console.log('category fetched')
+  isCategory.value = false;
+  currCategory.value = category;
+  console.log(currCategory.value)
 }
 const products = computed(() => {
   if (Array.isArray(productStore.products.data)) {
