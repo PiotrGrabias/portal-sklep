@@ -96,7 +96,7 @@
         </v-list-item>
       </v-list-group>
       <v-list-item prepend-icon="mdi-magnify">
-      <v-btn variant="elevated" color="teal">Filtruj</v-btn>
+      <v-btn @click="FilterSearch()" variant="elevated" color="teal">Filtruj</v-btn>
     </v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -104,9 +104,13 @@
 
 <script setup>
 import { ref } from "vue";
+import { useProductStore } from "@/stores/product";
 const selectedRam = ref([]);
 const selectedCards = ref([]);
 const selectedProcessors = ref([]);
+const productStore = useProductStore();
+const producer = ref('');
+const { FilterSearch } = productStore;
 
 const ram = ["GOODRAM"];
 

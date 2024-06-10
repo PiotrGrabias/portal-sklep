@@ -1,10 +1,23 @@
 <template>
   <v-container>
-        <v-row justify="center" no-gutters>
-      <v-col cols="12">
-        <h1 class="display-1 text-center">Bestsellery</h1>
-      </v-col>
-    </v-row>
+    <v-row no-gutters align="center" justify="center">
+  <v-col cols="auto"  class="mx-2">
+    <v-btn href="/procesory" class="display-1 text-center">Procesory</v-btn>
+  </v-col>
+  <v-col cols="auto"  class="mx-2">
+    <v-btn href="/ram" class="display-1 text-center">RAM</v-btn>
+  </v-col>
+  <v-col cols="auto"  class="mx-2">
+    <h1 class="display-1 text-center">Bestsellery</h1>
+  </v-col>
+  <v-col cols="auto"  class="mx-2">
+    <v-btn href="/karty" class="display-1 text-center">Karty Graficzne</v-btn>
+  </v-col>
+  <v-col cols="auto"  class="mx-2">
+    <v-btn href="/dyski" class="display-1 text-center">Dyski ssd</v-btn>
+  </v-col>
+</v-row>
+
     <v-row no-gutters>
       <v-col v-for="prod in products" :key="prod.id" cols="12" sm="6" md="3">
         <a :href="'/products/' + prod.id" class="no-underline" >

@@ -44,6 +44,11 @@ const routes = [
       name: 'Product',
       component: ProductDetails,
     },
+    {
+      path: '/procesory',
+      name: 'Procesory',
+      component: ProductDetails
+    }
 
 ]
 const router = createRouter({
