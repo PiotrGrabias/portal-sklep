@@ -121,11 +121,18 @@
         </v-list-item>
       </v-list-group>
       <v-divider></v-divider>
+    <br>
+        <v-row justify="center">
+        <text>Cena</text>
+      </v-row>
+      <v-list-item>
       <v-row align="center">
       <v-col cols="5">
         <v-text-field
           v-model="lowPrice"
           type="number"
+          :rules="[wholeLowPrice < wholeHighPrice, wholeLowPrice>0]"
+          :min="0"
         ></v-text-field>
       </v-col>
       <v-col cols="2" class="text-center">
@@ -135,17 +142,20 @@
         <v-text-field
           v-model="highPrice"
           type="number"
+          :rules="[wholeHighPrice > wholeLowPrice, wholeHighPrice>0]"
+          :min="0"
         ></v-text-field>
       </v-col>
       <v-list-item>
-      <p>Cena</p>
     </v-list-item>
     </v-row>
+    </v-list-item>
       <v-list-item prepend-icon="mdi-magnify">
         <v-btn
           @click="FilterSearch(selectedItems, category), $emit('price', lowPrice, highPrice, selectedItems)"
           variant="elevated"
           color="teal"
+          :disabled="isButtonDisabled"
           >Filtruj</v-btn
         >
       </v-list-item>
@@ -154,7 +164,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useProductStore } from "@/stores/product";
 
 defineProps({
@@ -169,6 +179,13 @@ const ram = ["GOODRAM"];
 const procesory = ["Intel", "Ryzen"];
 const karty = ["MSI", "PNY", "GeForce"];
 const dyski = ["Samsung"];
+const wholeLowPrice = computed(() => Math.floor(lowPrice.value));
+const wholeHighPrice = computed(() => Math.floor(highPrice.value));
+
+const isLowPriceValid = computed(() => wholeLowPrice.value < wholeHighPrice.value && wholeLowPrice.value >= 0);
+const isHighPriceValid = computed(() => wholeHighPrice.value > wholeLowPrice.value && wholeHighPrice.value >= 0);
+
+const isButtonDisabled = computed(() => !isLowPriceValid.value || !isHighPriceValid.value);
 </script>
 
 <style scoped>

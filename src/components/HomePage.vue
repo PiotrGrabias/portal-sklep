@@ -69,6 +69,14 @@
       </v-col>
     </v-row>
   </v-container>
+  <v-alert 
+    max-height = 300
+    density="compact"
+    text="Brak produktów spełniających kryteria wyszukiwania."
+    title="Ups!"
+    type="warning"
+    :model-value="noItems"
+  ></v-alert>
 </template>
 
 <script setup>
@@ -85,6 +93,7 @@ const producer = ref("");
 const { addToCart } = cartStore;
 const productStore = useProductStore();
 const products = computed(() => productStore.products);
+const noItems = ref(false);
 
 onMounted(async () => {
   await productStore.getItems();
@@ -105,6 +114,10 @@ function handlePrice(low, high, prod) {
 
 const getItemsByPrice = async (prod, category, min, max) => {
   await productStore.FilterSearch(prod, category, min, max);
+  noItems.value = false;
+  if(products.value.length === 0){
+    noItems.value = true;
+  }
 };
 </script>
 
