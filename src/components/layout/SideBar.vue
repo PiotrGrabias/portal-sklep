@@ -18,7 +18,7 @@
 
       <v-divider></v-divider>
 
-      <v-list-group value="RAM" v-if="category==='ram'">
+      <v-list-group value="RAM" v-if="category === 'ram'">
         <template v-slot:activator="{ props }">
           <v-list-item
             v-bind="props"
@@ -28,23 +28,23 @@
         </template>
         <v-list-item v-for="(title, i) in ram" :key="i">
           <v-row no-gutters align="center">
-    <v-col cols="auto">
-      <label class="checkbox-label">{{ title }}</label>
-    </v-col>
-    <v-col cols="auto">
-      <v-checkbox
-        class="white-checkbox"
-        color="warning"
-        v-model="selectedItems"
-        :value="title"
-        hide-details
-      ></v-checkbox>
-    </v-col>
-  </v-row>
+            <v-col cols="auto">
+              <label class="checkbox-label">{{ title }}</label>
+            </v-col>
+            <v-col cols="auto">
+              <v-checkbox
+                class="white-checkbox"
+                color="warning"
+                v-model="selectedItems"
+                :value="title"
+                hide-details
+              ></v-checkbox>
+            </v-col>
+          </v-row>
         </v-list-item>
       </v-list-group>
 
-      <v-list-group value="procesor" v-if="category==='procesor'">
+      <v-list-group value="procesor" v-if="category === 'procesor'">
         <template v-slot:activator="{ props }">
           <v-list-item
             v-bind="props"
@@ -70,7 +70,7 @@
         </v-list-item>
       </v-list-group>
 
-      <v-list-group value="karta" v-if="category==='karta'">
+      <v-list-group value="karta" v-if="category === 'karta'">
         <template v-slot:activator="{ props }">
           <v-list-item
             v-bind="props"
@@ -91,12 +91,11 @@
                 :value="title"
                 hide-details
               ></v-checkbox>
-              
             </v-col>
           </v-row>
         </v-list-item>
       </v-list-group>
-      <v-list-group value="dysk" v-if="category==='dysk'">
+      <v-list-group value="dysk" v-if="category === 'dysk'">
         <template v-slot:activator="{ props }">
           <v-list-item
             v-bind="props"
@@ -117,14 +116,39 @@
                 :value="title"
                 hide-details
               ></v-checkbox>
-              
             </v-col>
           </v-row>
         </v-list-item>
       </v-list-group>
-      <v-list-item prepend-icon="mdi-magnify">
-      <v-btn @click="getItemsByProducer(selectedItems)" variant="elevated" color="teal">Filtruj</v-btn>
+      <v-divider></v-divider>
+      <v-row align="center">
+      <v-col cols="5">
+        <v-text-field
+          v-model="lowPrice"
+          type="number"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="2" class="text-center">
+        <p>-</p>
+      </v-col>
+      <v-col cols="5">
+        <v-text-field
+          v-model="highPrice"
+          type="number"
+        ></v-text-field>
+      </v-col>
+      <v-list-item>
+      <p>Cena</p>
     </v-list-item>
+    </v-row>
+      <v-list-item prepend-icon="mdi-magnify">
+        <v-btn
+          @click="FilterSearch(selectedItems, category), $emit('price', lowPrice, highPrice, selectedItems)"
+          variant="elevated"
+          color="teal"
+          >Filtruj</v-btn
+        >
+      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -132,16 +156,18 @@
 <script setup>
 import { ref } from "vue";
 import { useProductStore } from "@/stores/product";
+
 defineProps({
-  category: String
-})
+  category: String,
+});
+const lowPrice = ref(1);
+const highPrice = ref(Infinity);
 const selectedItems = ref([]);
 const productStore = useProductStore();
-const producer = ref('');
-const { getItemsByProducer } = productStore;
+const { FilterSearch } = productStore;
 const ram = ["GOODRAM"];
 const procesory = ["Intel", "Ryzen"];
-const karty = ["Nvidia"];
+const karty = ["MSI", "PNY", "GeForce"];
 const dyski = ["Samsung"];
 </script>
 

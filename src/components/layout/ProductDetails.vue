@@ -115,10 +115,10 @@ onBeforeMount(async () => {
   cartStore.loadCart();
 
   const product = productStore.products;
-  if (product && product.data) {
+  if (product) {
     const item = {
-      id: product.data.id,
-      ...product.data.attributes,
+      id: product.id,
+      ...product.attributes,
     };
     productItem.value = [item];
 
@@ -141,8 +141,8 @@ onBeforeMount(async () => {
 });
 
 const productsmore = computed(() => {
-  if (Array.isArray(productStore.products.data)) {
-    return productStore.products.data.map((product) => ({
+  if (Array.isArray(productStore.products)) {
+    return productStore.products.map((product) => ({
       id: product.id,
       ...product.attributes,
     }));

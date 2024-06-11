@@ -11,12 +11,12 @@ const api = mande('http://localhost:8000/api', {
 export const useProductStore = defineStore('products', {
   state: () => ({
     products: [],
-    cart: []
   }),
   actions: {
     async getItems() {
       try {
-        this.products = await api.get('/products/');
+        const response = await api.get('/products/');
+        this.products = response.data;
         console.log(this.products);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -24,7 +24,8 @@ export const useProductStore = defineStore('products', {
     },
     async getItem(itemId) {
       try {
-        this.products = await api.get(`/products/${itemId}`);
+        const response = await api.get(`/products/${itemId}`); 
+        this.products = response.data
         console.log(this.products);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -32,7 +33,8 @@ export const useProductStore = defineStore('products', {
     },
     async getItemsByCategory(searchQuery) {
       try {
-        this.products = await api.get(`products/?category=${searchQuery}`);
+        const response = await api.get(`products/?category=${searchQuery}`);
+        this.products = response.data
         console.log(this.products);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -40,15 +42,17 @@ export const useProductStore = defineStore('products', {
     },
     async getItemsByProducer(producer) {
       try {
-        this.products = await api.get(`/products/?producer=${producer}`);
+        const response = await api.get(`/products/?producer=${producer}`);
+        this.products = response.data
         console.log(this.products);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     },
-    async FilterSearch(producer, category) {
+    async FilterSearch(producer, category, minprice, maxprice) {
       try {
-        this.products = await api.get(`/products/?producer=${producer}&category=${category}`);
+        const response = await api.get(`/products/?producer=${producer}&category=${category}&price_min=${minprice}&price_max=${maxprice}`);
+        this.products = response.data
         console.log(this.products);
       } catch (error) {
         console.error("Error fetching products:", error);
