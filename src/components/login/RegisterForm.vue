@@ -8,10 +8,7 @@
               color="grey-darken-4"
               light
               flat
-              style="
-                background-image: url('https://wallpaper.dog/large/20420792.jpg');
-                background-size: cover;
-              "
+              image="@/assets/tlo.jpg"
             >
               <v-toolbar-title>Rejestracja</v-toolbar-title>
             </v-toolbar>

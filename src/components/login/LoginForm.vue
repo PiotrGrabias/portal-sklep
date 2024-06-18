@@ -3,7 +3,7 @@
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6" lg="4">
         <v-card class="elevation-12">
-          <v-toolbar color="grey-darken-4" dark flat style="background-image: url('https://wallpaper.dog/large/20420792.jpg'); background-size: cover;">
+          <v-toolbar color="grey-darken-4" image="@/assets/tlo.jpg">
             <v-toolbar-title>Logowanie</v-toolbar-title>
           </v-toolbar>
           <v-card-text>

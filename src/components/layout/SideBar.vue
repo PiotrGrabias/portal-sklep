@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    image="https://wallpaper.dog/large/20420792.jpg"
+    image="@/assets/tlo.jpg"
     color="grey darken-3"
     dark
     width="300"

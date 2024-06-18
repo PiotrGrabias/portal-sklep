@@ -1,5 +1,5 @@
 <template>
-  <v-footer  style="background-image: url('https://wallpaper.dog/large/20420792.jpg'); background-size: cover;">
+  <v-footer  class="custom-footer">
     <v-row justify="center" no-gutters>
       <v-btn
         v-for="link in links"
@@ -28,3 +28,12 @@ const links = [
   { name: 'Kontakt', url: '/contact' }
 ];
 </script>
+
+<style scoped>
+.custom-footer {
+  background-image: url('@/assets/tlo.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+</style>

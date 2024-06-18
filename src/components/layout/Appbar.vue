@@ -1,7 +1,7 @@
 <template>
   <v-app-bar
     color="grey darken-2"
-    image="https://wallpaper.dog/large/20420792.jpg"
+    image="@/assets/tlo.jpg"
   >
     <template v-slot:image>
       <v-img></v-img>
