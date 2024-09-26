@@ -1,11 +1,13 @@
 import { defineStore } from "pinia";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 export const useCartStore = defineStore("cart", () => {
   const cartItems = ref([]);
   const currentItemId = ref(null);
   const addToCart = (itemId, prodName, price, img) => {
-    if (!cartItems.value.some((item) => item.id === itemId)) {
+    const existingItem = cartItems.value.find((item) => item.id === itemId);
+
+    if (!existingItem) {
       cartItems.value.push({
         id: itemId,
         amount: 1,
@@ -15,37 +17,38 @@ export const useCartStore = defineStore("cart", () => {
         img: img,
       });
     } else {
-      cartItems.value = cartItems.value.map((item) =>
-        item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-      );
+      existingItem.quantity++;
     }
-    localStorage.setItem("cart", JSON.stringify(cartItems.value));
     currentItemId.value = itemId;
+  };
+
+  const removeOneItem = (itemId) => {
+    const item = cartItems.value.find((item) => item.id === itemId);
+    if (item && item.quantity > 1) {
+      item.quantity--;
+    } else {
+      cartItems.value = cartItems.value.filter((item) => item.id !== itemId);
+    }
   };
 
   const removeFromCart = (itemId) => {
     cartItems.value = cartItems.value.filter((item) => item.id !== itemId);
-    localStorage.setItem("cart", JSON.stringify(cartItems.value));
-  }
-  const removeOneItem = (itemId) => {
-    cartItems.value = cartItems.value
-        .map((item) =>
-            item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
-        )
-        .filter(item => item.quantity > 0);
+  };
 
-    localStorage.setItem("cart", JSON.stringify(cartItems.value));
-}
   const clearCart = () => {
     cartItems.value = [];
-    localStorage.removeItem("cart");
   };
 
   const loadCart = () => {
-    if (localStorage.getItem("cart")) {
-      cartItems.value = JSON.parse(localStorage.getItem("cart"));
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      cartItems.value = JSON.parse(storedCart);
     }
   };
+
+  watch(cartItems, (newCart) => {
+    localStorage.setItem("cart", JSON.stringify(newCart));
+  }, { deep: true });
 
   onMounted(() => {
     loadCart();
