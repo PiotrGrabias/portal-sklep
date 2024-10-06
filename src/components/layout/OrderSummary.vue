@@ -119,12 +119,11 @@
     <v-row justify="center" class="mt-4">
     <v-col cols="12" md="8" class="text-center">
       <v-card class="pa-4">
-        <!-- Użycie klasy 'monospace-text' do stylizacji tekstu komputerowego -->
         <v-typography class="text-h4 monospace-text">
-          Suma do zapłaty
+          Łącznie do zapłaty
         </v-typography>
         <v-card-text class="text-h4 font-weight-black monospace-text">
-          {{ totalPriceWithDelivery }} zł (z dostawą)
+          {{ totalPriceWithDelivery }} zł (razem z dostawą)
         </v-card-text>
       </v-card>
     </v-col>
@@ -146,7 +145,7 @@ const valid = ref(false);
 const cartStore = useCartStore();
 const { fullPrice } = storeToRefs(cartStore);
 
-const deliveryCost = ref(15);
+const deliveryCost = ref(12.99);
 
 const delivery = ref({
   firstName: "",
@@ -169,11 +168,39 @@ const totalPriceWithDelivery = computed(() => {
   return fullPrice.value + deliveryCost.value;
 });
 
-const submitForm = () => {
-  if (valid.value) {
-    console.log("Formularz jest poprawny");
+const submitForm = async () => {
+  const deliveryFormValid = await delivery.value.validate();
+  const paymentFormValid = await payment.value.validate();
+
+  if (deliveryFormValid && paymentFormValid) {
+    const formData = {
+      delivery: delivery.value,
+      payment: payment.value,
+      totalPrice: totalPriceWithDelivery.value,
+    };
+
+    try {
+      const response = await fetch("/api/submit-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Błąd podczas wysyłania zamówienia.");
+      }
+
+      const result = await response.json();
+      console.log("Zamówienie wysłane pomyślnie:", result);
+
+    } catch (error) {
+      // Handle error
+      console.error("Wystąpił błąd:", error.message);
+    }
   } else {
-    console.log("Formularz nie jest poprawny");
+    console.log("Formularz nie jest poprawny.");
   }
 };
 </script>
