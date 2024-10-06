@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="6" lg="4">
         <v-card class="elevation-12">
           <v-toolbar color="grey-darken-4" image="@/assets/tlo.jpg">
-            <v-toolbar-title>Logowanie</v-toolbar-title>
+  
           </v-toolbar>
           <v-card-text>
             <v-form>
@@ -45,8 +45,7 @@
         <v-alert  v-if="errorMess"
     max-height = 150
     density="compact"
-    :text="errorMess"
-    title="Niezweryfikowany adres e-mail"
+    title="Błędne dane"
     type="error"
   ></v-alert>
       </v-col>
@@ -59,15 +58,22 @@
 
 <script setup>
 import AuthService from '../auth/auth-service';
-import { ref } from 'vue';
+import { ref, defineProps } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
+
+const props = defineProps({
+  redirectPath: {
+    type: String,
+    default: '/'  
+  }
+});
 
 const userStore = useUserStore();
 const username = ref('');
 const password = ref('');
 const errorMess = ref('');
-const route = useRouter();
+const router = useRouter();
 
 
 const handleLogin = async () => {
@@ -76,10 +82,9 @@ const handleLogin = async () => {
       username: username.value,
       password: password.value,
     };
-    console.log(userData);
     const response = await AuthService.login(userData);
     userStore.login(userData.username, response.token);
-    route.push('/');
+    router.push(props.redirectPath);
   } catch (error) {
     if (error.response && error.response.data.errors) {
       if (error.response.data.errors === 'Please confirm your email address.') {
@@ -92,6 +97,7 @@ const handleLogin = async () => {
   }
 };
 </script>
+
 
 <style scoped>
 .custom-hr {

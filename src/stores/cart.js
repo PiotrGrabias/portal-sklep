@@ -1,9 +1,16 @@
 import { defineStore } from "pinia";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 
 export const useCartStore = defineStore("cart", () => {
   const cartItems = ref([]);
   const currentItemId = ref(null);
+
+  const fullPrice = computed(() => {
+    return cartItems.value.reduce((total, item) => {
+      return total + item.price * item.quantity;
+    }, 0);
+  });
+
   const addToCart = (itemId, prodName, price, img) => {
     const existingItem = cartItems.value.find((item) => item.id === itemId);
 
@@ -62,5 +69,6 @@ export const useCartStore = defineStore("cart", () => {
     clearCart,
     loadCart,
     removeOneItem,
+    fullPrice, // Zwróć fullPrice w return
   };
 });

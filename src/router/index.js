@@ -12,6 +12,7 @@ import LoginForm from '@/components/login/LoginForm.vue'
 import RegisterForm from '@/components/login/RegisterForm.vue'
 import CartPage from '@/components/layout/CartPage.vue'
 import ProductDetails from '@/components/layout/ProductDetails.vue'
+import OrderSummary from '@/components/layout/OrderSummary.vue'
 
 const routes = [
   {
@@ -44,6 +45,11 @@ const routes = [
       name: 'Product',
       component: ProductDetails,
     },
+    {
+      path: '/summary',
+      name: 'Summary',
+      component: OrderSummary,
+    }
 
 ]
 const router = createRouter({

@@ -18,7 +18,7 @@
             <div>{{ item.name }}</div>
           </v-card-title>
           <v-card-subtitle class="text-center">
-            Łączna cena: {{ (item.price * item.quantity).toFixed(2) }} zł
+            Cena: {{ (item.price).toFixed(2) }} zł
           </v-card-subtitle>
           <v-card-subtitle class="text-center">
             Ilość: {{ item.quantity }}
@@ -76,9 +76,20 @@
   </v-card>
   </v-col>
 </v-row>
-  <v-row justify="center" align="center">
-  <v-col cols="auto" class="mx-2" href="/summary">
-          <v-btn color="teal">Przejdź do podsumowania</v-btn
+  <v-row justify="center" align="center" v-if="!isLoggedIn">
+  <v-col cols="auto" class="mx-2" >
+          <v-btn variant="outlined" link to="/summary" color="teal">Kontynuuj jako gość</v-btn
+          >
+        </v-col> 
+      </v-row>
+        <v-row>
+  <v-col cols="12">
+      <login-form redirectPath = "/summary"/>
+        </v-col>
+      </v-row>
+      <v-row justify="center" align="center" v-if="isLoggedIn">
+  <v-col cols="auto" class="mx-2">
+          <v-btn link to="/summary" color="blue">Kontynuuj</v-btn
           >
         </v-col>
       </v-row>
@@ -86,14 +97,19 @@
 
 <script setup>
 import { useCartStore } from "@/stores/cart";
+import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import { ref } from 'vue';
+import { computed } from 'vue';
 
 const cartStore = useCartStore();
+const userStore = useUserStore();
+const { isLoggedIn } = storeToRefs(userStore);
 const { cartItems } = storeToRefs(cartStore);
-const fullPrice = ref(0);
-for (let i = 0; i< cartItems.value.length; i++){
-  fullPrice.value += cartItems.value[i].price * cartItems.value[i].quantity;
-}
+const fullPrice = computed(() => {
+  return cartItems.value.reduce((total, item) => {
+    return total + (item.price * item.quantity);
+  }, 0);
+});
+
 const { removeFromCart, removeOneItem, addToCart } = cartStore;
 </script>
