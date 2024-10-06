@@ -117,15 +117,20 @@
       </v-col>
     </v-row>
     <v-row justify="center" class="mt-4">
-      <v-col cols="12" md="8" class="text-center">
-        <v-card class="pa-4">
-          <v-typography  class="text-h4 font-weight-black">Suma do zapłaty</v-typography>
-          <v-card-text class="text-h4 font-weight-black">{{ totalPriceWithDelivery }} zł (z dostawą)</v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+    <v-col cols="12" md="8" class="text-center">
+      <v-card class="pa-4">
+        <!-- Użycie klasy 'monospace-text' do stylizacji tekstu komputerowego -->
+        <v-typography class="text-h4 monospace-text">
+          Suma do zapłaty
+        </v-typography>
+        <v-card-text class="text-h4 font-weight-black monospace-text">
+          {{ totalPriceWithDelivery }} zł (z dostawą)
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
     <v-row justify="center" class="mt-4">
-      <v-col cols="12" md="8" class="text-center">
+      <v-col cols="12" md="8" class="text-center" align-self="stretch">
         <v-btn color="teal" @click="submitForm">Potwierdź i zapłać</v-btn>
       </v-col>
     </v-row>
@@ -141,7 +146,7 @@ const valid = ref(false);
 const cartStore = useCartStore();
 const { fullPrice } = storeToRefs(cartStore);
 
-const deliveryCost = ref(15); // Stała opłata za dostawę (15 zł)
+const deliveryCost = ref(15);
 
 const delivery = ref({
   firstName: "",
@@ -151,7 +156,7 @@ const delivery = ref({
   city: "",
   phone: "",
   email: "",
-  deliveryType: "courier", // domyślnie ustawione na kuriera
+  deliveryType: "courier", 
 });
 
 const payment = ref({
@@ -167,7 +172,6 @@ const totalPriceWithDelivery = computed(() => {
 const submitForm = () => {
   if (valid.value) {
     console.log("Formularz jest poprawny");
-    // Tu można dodać logikę do przetwarzania płatności i dostawy
   } else {
     console.log("Formularz nie jest poprawny");
   }
