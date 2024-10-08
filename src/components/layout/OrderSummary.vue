@@ -2,7 +2,7 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" md="8">
-        <v-card class="pa-4 text-black" >
+        <v-card class="pa-4 text-black">
           <v-card-title class="text-h5">Dane do dostawy</v-card-title>
           <v-card-text>
             <v-form ref="deliveryForm" v-model="valid" lazy-validation>
@@ -10,7 +10,7 @@
                 <v-col cols="12" sm="6">
                   <v-text-field
                     v-model="delivery.firstName"
-                    :rules="[(v) => !!v || 'Imię jest wymagane']"
+                    :rules="[(v) => !!v || 'Imie jest wymagane']"
                     label="Imię"
                     required
                   ></v-text-field>
@@ -57,9 +57,8 @@
               <v-text-field
                 v-model="delivery.email"
                 :rules="[
-                  (v) =>
-                    !!v ||
-                    'Adres email jest wymagany - tam otrzymasz potwierdzenie zamówienia',
+                  (v) => /.+@.+\..+/.test(v) || 'Podaj prawidłowy email',
+                  (v) => !!v || 'Email jest wymagany',
                 ]"
                 label="E-mail"
                 required
@@ -89,7 +88,10 @@
             <v-form ref="paymentForm" v-model="valid" lazy-validation>
               <v-text-field
                 v-model="payment.cardNumber"
-                :rules="[(v) => !!v || 'Numer karty jest wymagany']"
+                :rules="[
+                  (v) => !!v || 'Numer karty jest wymagany',
+                  (v) => /^\d{16}$/.test(v) || 'Numer karty musi mieć 16 cyfr',
+                ]"
                 label="Numer karty"
                 required
               ></v-text-field>
@@ -97,15 +99,28 @@
                 <v-col cols="6">
                   <v-text-field
                     v-model="payment.expiryDate"
-                    :rules="[(v) => !!v || 'Data ważności jest wymagana']"
-                    label="Data ważności"
+                    :rules="[
+                      (v) => !!v || 'Data ważności jest wymagana',
+                      (v) =>
+                        /^\d{2}\/\d{2}$/.test(v) ||
+                        'Data ważności musi być w formacie MM/YY',
+                      (v) =>
+                        validateExpiryDate(v) ||
+                        'Data ważności nie może być przeterminowana',
+                    ]"
+                    label="Data ważności (MM/YY)"
                     required
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
                     v-model="payment.cvv"
-                    :rules="[(v) => !!v || 'Kod CVV jest wymagany']"
+                    :rules="[
+                      (v) => !!v || 'Kod CVV jest wymagany',
+                      (v) =>
+                        /^\d{3,4}$/.test(v) ||
+                        'CVV musi składać się z 3 lub 4 cyfr',
+                    ]"
                     label="CVV"
                     required
                   ></v-text-field>
@@ -117,22 +132,23 @@
       </v-col>
     </v-row>
     <v-row justify="center" class="mt-4">
-    <v-col cols="12" md="8" class="text-center">
-      <v-card class="pa-4">
-        <v-typography class="text-h4 monospace-text">
-          Łącznie do zapłaty
-        </v-typography>
-        <v-card-text class="text-h4 font-weight-black monospace-text">
-          {{ totalPriceWithDelivery }} zł (razem z dostawą)
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-row>
+      <v-col cols="12" md="8" class="text-center">
+        <v-card class="pa-4">
+          <v-typography class="text-h4 monospace-text">
+            Łącznie do zapłaty
+          </v-typography>
+          <v-card-text class="text-h4 font-weight-black monospace-text">
+            {{ totalPriceWithDelivery }} zł (razem z dostawą)
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
     <v-row justify="center" class="mt-4">
       <v-col cols="12" md="8" class="text-center" align-self="stretch">
         <v-btn color="teal" @click="submitForm">Potwierdź i zapłać</v-btn>
       </v-col>
     </v-row>
+    <LoadSpinner :model-value="loading" />
   </v-container>
 </template>
 
@@ -144,8 +160,28 @@ import { storeToRefs } from "pinia";
 const valid = ref(false);
 const cartStore = useCartStore();
 const { fullPrice } = storeToRefs(cartStore);
+const loading = ref(false);
 
 const deliveryCost = ref(12.99);
+
+const validateExpiryDate = (expiry) => {
+  const [month, year] = expiry.split("/").map(Number);
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear() % 100;
+  if (year < currentYear) {
+    return false;
+  }
+  if (year === currentYear && month < currentMonth) {
+    return false;
+  }
+
+  return true;
+};
+
+const totalPriceWithDelivery = computed(() => {
+  return fullPrice.value + deliveryCost.value;
+});
 
 const delivery = ref({
   firstName: "",
@@ -155,7 +191,8 @@ const delivery = ref({
   city: "",
   phone: "",
   email: "",
-  deliveryType: "courier", 
+  deliveryType: "courier",
+  price: totalPriceWithDelivery.value
 });
 
 const payment = ref({
@@ -164,28 +201,16 @@ const payment = ref({
   cvv: "",
 });
 
-const totalPriceWithDelivery = computed(() => {
-  return fullPrice.value + deliveryCost.value;
-});
 
 const submitForm = async () => {
-  const deliveryFormValid = await delivery.value.validate();
-  const paymentFormValid = await payment.value.validate();
-
-  if (deliveryFormValid && paymentFormValid) {
-    const formData = {
-      delivery: delivery.value,
-      payment: payment.value,
-      totalPrice: totalPriceWithDelivery.value,
-    };
-
+  if (valid.value == true) {
     try {
-      const response = await fetch("/api/submit-order", {
+      const response = await fetch("http://localhost:8000/api/submit-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(delivery.value),
       });
 
       if (!response.ok) {
@@ -193,10 +218,9 @@ const submitForm = async () => {
       }
 
       const result = await response.json();
+      loading.value = false;
       console.log("Zamówienie wysłane pomyślnie:", result);
-
     } catch (error) {
-      // Handle error
       console.error("Wystąpił błąd:", error.message);
     }
   } else {
