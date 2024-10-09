@@ -143,9 +143,18 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row justify="center" class="mt-4">
+    <v-row v-if="valid" justify="center" class="mt-4">
       <v-col cols="12" md="8" class="text-center" align-self="stretch">
         <v-btn color="teal" @click="submitForm">Potwierdź i zapłać</v-btn>
+      </v-col>
+    </v-row>
+    <v-row v-else justify="center" class="mt-4">
+      <v-col cols="12" md="8" class="text-center" align-self="stretch">
+        <v-tooltip text="Wypełnij poprawnie wszystkie pola">
+          <template v-slot:activator="{ props }">
+        <v-btn v-bind="props" variant = "outlined" color="red" @click="submitForm">Potwierdź i zapłać</v-btn>
+      </template>
+    </v-tooltip>
       </v-col>
     </v-row>
     <LoadSpinner :model-value="loading" />
@@ -207,8 +216,8 @@ const payment = ref({
 
 
 const submitForm = async () => {
-  console.log(delivery.value)
   if (valid.value == true) {
+    loading.value = true;
     try {
       const response = await fetch("http://localhost:8000/api/submit-order", {
         method: "POST",
@@ -229,6 +238,7 @@ const submitForm = async () => {
       console.error("Wystąpił błąd:", error.message);
     }
   } else {
+    
     console.log("Formularz nie jest poprawny.");
   }
 };
