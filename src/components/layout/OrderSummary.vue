@@ -159,7 +159,7 @@ import { storeToRefs } from "pinia";
 
 const valid = ref(false);
 const cartStore = useCartStore();
-const { fullPrice } = storeToRefs(cartStore);
+const { fullPrice, cartItems } = storeToRefs(cartStore);
 const loading = ref(false);
 
 const deliveryCost = ref(12.99);
@@ -192,7 +192,11 @@ const delivery = ref({
   phone: "",
   email: "",
   deliveryType: "courier",
-  price: totalPriceWithDelivery.value
+  price: totalPriceWithDelivery.value,
+  items: cartItems.value.map(item => ({
+    prodName: item.name,
+    amount: item.quantity,
+  })),
 });
 
 const payment = ref({
@@ -203,6 +207,7 @@ const payment = ref({
 
 
 const submitForm = async () => {
+  console.log(delivery.value)
   if (valid.value == true) {
     try {
       const response = await fetch("http://localhost:8000/api/submit-order", {

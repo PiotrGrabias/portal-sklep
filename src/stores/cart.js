@@ -69,6 +69,6 @@ export const useCartStore = defineStore("cart", () => {
     clearCart,
     loadCart,
     removeOneItem,
-    fullPrice, // Zwróć fullPrice w return
+    fullPrice, 
   };
 });
