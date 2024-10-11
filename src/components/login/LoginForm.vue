@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="6" lg="4">
         <v-card class="elevation-12">
           <v-toolbar color="grey-darken-4" image="@/assets/tlo.jpg">
-  
+            <v-toolbar-title>Formularz logowania</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-form>
@@ -30,7 +30,7 @@
                     <v-btn color="grey-darken-4" text @click="handleLogin">
                       Zaloguj się
                     </v-btn>
-                    <hr class="custom-hr" > 
+                    <hr class="custom-hr">
                     <span class="mx-2">Nie masz konta?</span>
                     <hr class="custom-hr">
                     <v-btn color="teal" href="/register">
@@ -42,19 +42,12 @@
             </v-form>
           </v-card-text>
         </v-card>
-        <v-alert  v-if="errorMess"
-    max-height = 150
-    density="compact"
-    title="Błędne dane"
-    type="error"
-  ></v-alert>
+        <v-alert v-if="errorMess" max-height="150" density="compact" title="Błędne dane" type="error"></v-alert>
       </v-col>
     </v-row>
   </v-container>
- 
-  
-  
 </template>
+
 
 <script setup>
 import AuthService from '../auth/auth-service';
@@ -100,6 +93,7 @@ const handleLogin = async () => {
 
 
 <style scoped>
+
 .custom-hr {
   width: 50%;         
   margin: 0 auto;     

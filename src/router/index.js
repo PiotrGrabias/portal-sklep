@@ -13,6 +13,7 @@ import RegisterForm from '@/components/login/RegisterForm.vue'
 import CartPage from '@/components/layout/CartPage.vue'
 import ProductDetails from '@/components/layout/ProductDetails.vue'
 import OrderSummary from '@/components/layout/OrderSummary.vue'
+import UserOrders from '@/components/layout/UserOrders.vue'
 
 const routes = [
   {
@@ -49,6 +50,11 @@ const routes = [
       path: '/summary',
       name: 'Summary',
       component: OrderSummary,
+    },
+    {
+      path: '/orders',
+      name: 'Oders',
+      component: UserOrders,
     }
 
 ]

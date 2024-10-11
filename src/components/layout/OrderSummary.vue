@@ -158,18 +158,34 @@
       </v-col>
     </v-row>
     <LoadSpinner :model-value="loading" />
+    <ConfirmationDialog v-if="!isLoggedIn"
+  :showConfirmation="showConfirmation" 
+  :isLoggedIn="isLoggedIn" 
+  @close="showConfirmation = false"
+/>
+<ConfirmationDialog v-else
+  :showConfirmation="showConfirmation" 
+  :isLoggedIn="isLoggedIn" 
+  text="Zamówienie zostało pomyślnie zarejestrowane w systemie, niebawem otrzymasz potwierdzenie na podany adres email, będzie ono również widoczne na twoim koncie w sekcji zamówienia. Za kilka sekund zostaniesz przeniesiony na stronę główną."
+  @close="showConfirmation = false"
+/>
   </v-container>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
 import { useCartStore } from "@/stores/cart";
+import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
+import router from "@/router";
 
 const valid = ref(false);
 const cartStore = useCartStore();
+const userStore = useUserStore();
+const { isLoggedIn } = storeToRefs(userStore)
 const { fullPrice, cartItems } = storeToRefs(cartStore);
 const loading = ref(false);
+const showConfirmation = ref(false);
 
 const deliveryCost = ref(12.99);
 
@@ -214,6 +230,12 @@ const payment = ref({
   cvv: "",
 });
 
+const redirectToHome = () => {
+  setTimeout(() => {
+    router.push({ path: '/' })
+}, 8000);
+}
+
 
 const submitForm = async () => {
   if (valid.value == true) {
@@ -233,6 +255,8 @@ const submitForm = async () => {
 
       const result = await response.json();
       loading.value = false;
+      showConfirmation.value = true;
+      redirectToHome();
       console.log("Zamówienie wysłane pomyślnie:", result);
     } catch (error) {
       console.error("Wystąpił błąd:", error.message);

@@ -84,7 +84,7 @@
       </v-row>
         <v-row>
   <v-col cols="12">
-      <login-form redirectPath = "/summary"/>
+      <login-form v-if="!isLoggedIn" redirectPath = "/summary"/>
         </v-col>
       </v-row>
       <v-row justify="center" align="center" v-if="isLoggedIn">
