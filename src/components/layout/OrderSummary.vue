@@ -219,8 +219,10 @@ const delivery = ref({
   deliveryType: "courier",
   price: totalPriceWithDelivery.value,
   items: cartItems.value.map(item => ({
+    id: item.id,
     prodName: item.name,
     amount: item.quantity,
+    image: item.img,
   })),
 });
 
@@ -240,6 +242,7 @@ const redirectToHome = () => {
 const submitForm = async () => {
   if (valid.value == true) {
     loading.value = true;
+    console.log(delivery.value)
     try {
       const response = await fetch("http://localhost:8000/api/submit-order", {
         method: "POST",
