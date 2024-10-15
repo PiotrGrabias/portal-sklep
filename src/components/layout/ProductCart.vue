@@ -50,7 +50,7 @@
 
 <script setup>
 import { useCartStore } from '@/stores/cart';
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'; 
 import { computed } from 'vue';
 
 const cartStore = useCartStore();

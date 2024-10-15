@@ -240,7 +240,7 @@ const redirectToHome = () => {
 
 
 const submitForm = async () => {
-  if (valid.value == true) {
+  if (valid.value) {
     loading.value = true;
     console.log(delivery.value)
     try {
@@ -255,11 +255,21 @@ const submitForm = async () => {
       if (!response.ok) {
         throw new Error("Błąd podczas wysyłania zamówienia.");
       }
-
+      for (const item of cartItems.value) {
+        await fetch(`http://localhost:8000/api/products/${item.id}/decrement/`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ quantity: item.quantity }), 
+        }
+      );
+      }
       const result = await response.json();
       loading.value = false;
       showConfirmation.value = true;
-      redirectToHome();
+      /* redirectToHome(); 
+      */
       console.log("Zamówienie wysłane pomyślnie:", result);
     } catch (error) {
       console.error("Wystąpił błąd:", error.message);
