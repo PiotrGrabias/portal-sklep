@@ -29,8 +29,7 @@
             <v-btn
               v-bind="props"
               icon
-              @click.stop="removeOneItem(item.id)"
-              aria-label="Remove one item"
+              @click.prevent="removeOneItem(item.id)"
               v-if="item.quantity > 1"
             >
               <v-icon>mdi-minus</v-icon>
@@ -42,9 +41,8 @@
             <v-btn
               v-bind="props"
               icon
-              @click.stop="removeFromCart(item.id)"
-              aria-label="Remove item from cart"
-              v-if="item.quantity === 1"
+              @click.prevent="removeFromCart(item.id)"
+              v-if="item.quantity == 1"
             >
               <v-icon>mdi-delete</v-icon>
             </v-btn>
@@ -55,8 +53,7 @@
             <v-btn
               v-bind="props"
               icon
-              @click.stop="addToCart(item.id)"
-              aria-label="Add one more item"
+              @click.prevent="addToCart(item.id)"
             >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
@@ -93,6 +90,12 @@
           >
         </v-col>
       </v-row>
+      <ConfirmationDialog v-if="tooManyItems"
+  :showConfirmation="tooManyItems" 
+  title="Uwaga"
+  text="To jest maksymalna ilość dostępnych egzemplarzy"
+  @close="tooManyItems  = false"
+/>
 </template>
 
 <script setup>
@@ -104,12 +107,14 @@ import { computed } from 'vue';
 const cartStore = useCartStore();
 const userStore = useUserStore();
 const { isLoggedIn } = storeToRefs(userStore);
-const { cartItems } = storeToRefs(cartStore);
+const { tooManyItems, cartItems } = storeToRefs(cartStore);
 const fullPrice = computed(() => {
   return cartItems.value.reduce((total, item) => {
     return total + (item.price * item.quantity);
   }, 0);
 });
+console.log(cartItems.value);
+
 
 const { removeFromCart, removeOneItem, addToCart } = cartStore;
 </script>

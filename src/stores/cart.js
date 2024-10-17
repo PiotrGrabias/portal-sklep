@@ -6,6 +6,7 @@ export const useCartStore = defineStore("cart", () => {
   const cartItems = ref([]);
   const currentItemId = ref(null);
   const productStore = useProductStore();
+  const tooManyItems = ref(false)
 
   const fullPrice = computed(() => {
     return cartItems.value.reduce((total, item) => {
@@ -20,7 +21,7 @@ export const useCartStore = defineStore("cart", () => {
       console.error(`Product with id ${itemId} not found.`);
       return;
     }    
-    const availableAmount = product.amount;
+    const availableAmount = product.attributes.amount;
 
     if (!existingItem) {
       if (availableAmount > 0) {
@@ -40,6 +41,7 @@ export const useCartStore = defineStore("cart", () => {
         existingItem.quantity++;
       } else {
         console.error("Cannot add more: Exceeds available quantity");
+        tooManyItems.value = true;
       }
     }
     currentItemId.value = itemId;
@@ -55,7 +57,12 @@ export const useCartStore = defineStore("cart", () => {
   };
 
   const removeFromCart = (itemId) => {
-    cartItems.value = cartItems.value.filter((item) => item.id !== itemId);
+    const itemIndex = cartItems.value.findIndex((item) => item.id === itemId);
+    if (itemIndex !== -1) {
+      cartItems.value.splice(itemIndex, 1); 
+    } else {
+      console.error(`Item with id ${itemId} not found in cart`);
+    }
   };
 
   const clearCart = () => {
@@ -79,6 +86,7 @@ export const useCartStore = defineStore("cart", () => {
 
   return {
     cartItems,
+    tooManyItems,
     currentItemId,
     addToCart,
     removeFromCart,

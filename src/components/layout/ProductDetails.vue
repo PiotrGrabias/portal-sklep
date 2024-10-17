@@ -141,16 +141,11 @@ onBeforeMount(async () => {
 });
 
 const productsmore = computed(() => {
-  if (Array.isArray(productStore.products)) {
     return productStore.products.map((product) => ({
       id: product.id,
       ...product.attributes,
     }));
-  } else {
-    console.error("products.data is not an array:", productStore.products.data);
-    return [];
-  }
-});
+    });
 </script>
 
 <style scoped>
