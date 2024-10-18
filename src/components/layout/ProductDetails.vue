@@ -112,7 +112,6 @@ const relatedCategory = ref('');
 
 onBeforeMount(async () => {
   await productStore.getItem(route.params.id);
-  cartStore.loadCart();
 
   const product = productStore.products;
   if (product) {

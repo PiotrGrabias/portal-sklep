@@ -7,22 +7,31 @@ export const useCartStore = defineStore("cart", () => {
   const currentItemId = ref(null);
   const productStore = useProductStore();
   const tooManyItems = ref(false)
+  const showCart = ref(true)
+  const product = ref({})
 
   const fullPrice = computed(() => {
-    return cartItems.value.reduce((total, item) => {
+    const total = cartItems.value.reduce((total, item) => {
       return total + item.price * item.quantity;
     }, 0);
+    return total.toFixed(2);  
   });
-
-  const addToCart = (itemId, prodName, price, img) => {
-    const existingItem = cartItems?.value?.find((item) => item.id === itemId);
-    const product = productStore?.products?.find(product => product.id === itemId);
-    if (!product) {
+  const addToCart = async (itemId, prodName, price, img) => {
+    if (productStore.products.length === 0) {
+      console.warn("Products not loaded yet. Fetching products...");
+      await productStore.getItems(); 
+    }
+  
+    product.value = productStore?.products?.find(product => product.id === itemId);
+  
+    if (!product.value) {
       console.error(`Product with id ${itemId} not found.`);
       return;
-    }    
-    const availableAmount = product.attributes.amount;
-
+    }
+  
+    const availableAmount = product.value.attributes.amount;
+    const existingItem = cartItems?.value?.find((item) => item.id === itemId);
+  
     if (!existingItem) {
       if (availableAmount > 0) {
         cartItems.value.push({
@@ -46,29 +55,21 @@ export const useCartStore = defineStore("cart", () => {
     }
     currentItemId.value = itemId;
   };
+  
 
   const removeOneItem = (itemId) => {
     const item = cartItems.value.find((item) => item.id === itemId);
     if (item && item.quantity > 1) {
       item.quantity--;
-    } else {
+    } else if (item && item.quantity === 1) {
       cartItems.value = cartItems.value.filter((item) => item.id !== itemId);
-    }
-  };
-
-  const removeFromCart = (itemId) => {
-    const itemIndex = cartItems.value.findIndex((item) => item.id === itemId);
-    if (itemIndex !== -1) {
-      cartItems.value.splice(itemIndex, 1); 
-    } else {
-      console.error(`Item with id ${itemId} not found in cart`);
     }
   };
 
   const clearCart = () => {
     cartItems.value = [];
   };
-
+  
   const loadCart = () => {
     const storedCart = localStorage.getItem("cart");
     if (storedCart) {
@@ -85,13 +86,12 @@ export const useCartStore = defineStore("cart", () => {
   });
 
   return {
+    showCart,
     cartItems,
     tooManyItems,
     currentItemId,
     addToCart,
-    removeFromCart,
     clearCart,
-    loadCart,
     removeOneItem,
     fullPrice, 
   };

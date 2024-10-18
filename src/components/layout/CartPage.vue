@@ -18,47 +18,30 @@
             <div>{{ item.name }}</div>
           </v-card-title>
           <v-card-subtitle class="text-center">
-            Cena: {{ (item.price).toFixed(2) }} zł
+            Cena: {{ (item.price) }} zł
           </v-card-subtitle>
           <v-card-subtitle class="text-center">
             Ilość: {{ item.quantity }}
           </v-card-subtitle>
           <v-row class="justify-center align-center my-2">
-            <v-tooltip text="Usuń egzemplarz">
-              <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
+            <v-btn v-if="item.quantity>1"
               icon
-              @click.prevent="removeOneItem(item.id)"
-              v-if="item.quantity > 1"
+              @click="removeOneItem(item.id)"
             >
               <v-icon>mdi-minus</v-icon>
             </v-btn>
-          </template>
-        </v-tooltip>
-            <v-tooltip text="Usuń produkt">
-              <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
+            <v-btn v-else
               icon
-              @click.prevent="removeFromCart(item.id)"
-              v-if="item.quantity == 1"
+              @click="removeOneItem(item.id)"
             >
               <v-icon>mdi-delete</v-icon>
             </v-btn>
-            </template>
-          </v-tooltip>
-            <v-tooltip text="Dodaj kolejny egzemplarz">
-              <template v-slot:activator="{ props }">
             <v-btn
-              v-bind="props"
               icon
-              @click.prevent="addToCart(item.id)"
+              @click="addToCart(item.id)"
             >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
-            </template>
-          </v-tooltip>
           </v-row>
         </v-card>
       </v-col>
@@ -86,8 +69,9 @@
       </v-row>
       <v-row justify="center" align="center" v-if="isLoggedIn">
   <v-col cols="auto" class="mx-2">
-          <v-btn link to="/summary" color="blue">Kontynuuj</v-btn
+          <v-btn v-if="fullPrice != 0" link to="/summary" color="blue">Kontynuuj</v-btn
           >
+          <v-btn v-else @click="showCart = true" link to="/" color="red">Brak przedmiotów w koszyku, wróć na stronę główną</v-btn>
         </v-col>
       </v-row>
       <ConfirmationDialog v-if="tooManyItems"
@@ -102,19 +86,12 @@
 import { useCartStore } from "@/stores/cart";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import { computed } from 'vue';
 
 const cartStore = useCartStore();
 const userStore = useUserStore();
 const { isLoggedIn } = storeToRefs(userStore);
-const { tooManyItems, cartItems } = storeToRefs(cartStore);
-const fullPrice = computed(() => {
-  return cartItems.value.reduce((total, item) => {
-    return total + (item.price * item.quantity);
-  }, 0);
-});
-console.log(cartItems.value);
+const { tooManyItems, cartItems, showCart, fullPrice } = storeToRefs(cartStore);
+showCart.value = false
 
-
-const { removeFromCart, removeOneItem, addToCart } = cartStore;
+const { removeOneItem, addToCart } = cartStore;
 </script>

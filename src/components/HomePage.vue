@@ -77,19 +77,12 @@
     type="warning"
     :model-value="noItems"
   ></v-alert>
-  <ConfirmationDialog v-if="tooManyItems"
-  :showConfirmation="tooManyItems" 
-  title="Uwaga"
-  text="To jest maksymalna ilość dostępnych egzemplarzy"
-  @close="tooManyItems = false"
-/>
 </template>
 
 <script setup>
 import { onMounted, ref, computed } from "vue";
 import { useProductStore } from "../stores/product.js";
 import { useCartStore } from "@/stores/cart.js";
-import { storeToRefs } from "pinia";
 
 const lowPrice = ref(0);
 const highPrice = ref(Infinity);
@@ -100,7 +93,6 @@ const producer = ref("");
 const { addToCart } = cartStore;
 const productStore = useProductStore();
 const products = computed(() => productStore.products);
-const { tooManyItems } = storeToRefs(cartStore)
 const noItems = ref(false);
 
 onMounted(async () => {

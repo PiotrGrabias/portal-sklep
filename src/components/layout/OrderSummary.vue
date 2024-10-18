@@ -268,8 +268,7 @@ const submitForm = async () => {
       const result = await response.json();
       loading.value = false;
       showConfirmation.value = true;
-      /* redirectToHome(); 
-      */
+       redirectToHome(); 
       console.log("Zamówienie wysłane pomyślnie:", result);
     } catch (error) {
       console.error("Wystąpił błąd:", error.message);

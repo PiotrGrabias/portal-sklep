@@ -1,5 +1,5 @@
 <template>
-  <v-menu open-on-click :close-on-content-click=false> 
+  <v-menu open-on-click :close-on-content-click=false v-if="showCart"> 
     <template v-slot:activator="{ props }">
       <v-btn v-bind="props">
         <v-badge 
@@ -26,7 +26,7 @@
         </v-list-item-content>
         <v-list-item-action>
           <v-row class="justify-center align-center my-2">
-          <v-btn v-if="item.quantity === 1"  @click="removeFromCart(item.id)">
+          <v-btn v-if="item.quantity === 1"  @click="removeOneItem(item.id)">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
           <v-btn v-if="item.quantity>0 && item.quantity !== 1" @click="removeOneItem(item.id)"><v-icon>mdi-minus</v-icon></v-btn>
@@ -46,6 +46,12 @@
     </v-row>
     </v-list>
   </v-menu>
+  <ConfirmationDialog v-if="tooManyItems"
+  :showConfirmation="tooManyItems" 
+  title="Uwaga"
+  text="To jest maksymalna ilość dostępnych egzemplarzy"
+  @close="tooManyItems = false"
+/>
 </template>
 
 <script setup>
@@ -54,7 +60,7 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 
 const cartStore = useCartStore();
-const { cartItems } = storeToRefs(cartStore);
-const { removeFromCart, clearCart, removeOneItem, addToCart } = cartStore;
+const { tooManyItems, cartItems, showCart } = storeToRefs(cartStore);
+const {  clearCart, removeOneItem, addToCart } = cartStore;
 const totalItems = computed(() => cartItems.value.length);
 </script>
