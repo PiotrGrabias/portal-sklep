@@ -11,9 +11,7 @@
   >
     <v-list dense flat>
       <v-list-item two-line>
-        <v-list-item-content>
           <v-list-item-title class="headline">pc-parts</v-list-item-title>
-        </v-list-item-content>
       </v-list-item>
 
       <v-divider></v-divider>

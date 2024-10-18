@@ -13,7 +13,6 @@
     </template>
     <v-list>
       <v-list-item v-for="item in cartItems" :key="item.id">
-        <v-list-item-content>
             <v-img
                 height="100"
                 aspect-ratio="16/9"
@@ -23,7 +22,6 @@
           <v-list-item-subtitle
             >Ilość: {{ item.quantity }}</v-list-item-subtitle
           >
-        </v-list-item-content>
         <v-list-item-action>
           <v-row class="justify-center align-center my-2">
           <v-btn v-if="item.quantity === 1"  @click="removeOneItem(item.id)">
