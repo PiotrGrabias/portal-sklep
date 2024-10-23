@@ -12,9 +12,12 @@ export const useCartStore = defineStore("cart", () => {
 
   const fullPrice = computed(() => {
     const total = cartItems.value.reduce((total, item) => {
-      return total + item.price * item.quantity;
+      const price = parseFloat(item.price) || 0; 
+      const quantity = parseInt(item.quantity) || 0;  
+      return total + price * quantity;
     }, 0);
-    return total.toFixed(2);  
+  
+    return (Math.round(total * 100) / 100).toFixed(2);
   });
   const addToCart = async (itemId, prodName, price, img) => {
     if (productStore.products.length === 0) {

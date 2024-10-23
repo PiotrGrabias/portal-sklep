@@ -150,7 +150,7 @@
     </v-list-item>
       <v-list-item prepend-icon="mdi-magnify">
         <v-btn
-          @click="FilterSearch(selectedItems, category), $emit('price', lowPrice, highPrice, selectedItems)"
+          @click=" $emit('price', lowPrice, highPrice, selectedItems)"
           variant="elevated"
           color="teal"
           :disabled="isButtonDisabled"
@@ -163,16 +163,13 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useProductStore } from "@/stores/product";
 
 defineProps({
   category: String,
 });
 const lowPrice = ref(1);
-const highPrice = ref(Infinity);
+const highPrice = ref(10000);
 const selectedItems = ref([]);
-const productStore = useProductStore();
-const { FilterSearch } = productStore;
 const ram = ["GOODRAM"];
 const procesory = ["Intel", "Ryzen"];
 const karty = ["MSI", "PNY", "GeForce"];
@@ -180,9 +177,8 @@ const dyski = ["Samsung"];
 const wholeLowPrice = computed(() => Math.floor(lowPrice.value));
 const wholeHighPrice = computed(() => Math.floor(highPrice.value));
 
-const isLowPriceValid = computed(() => wholeLowPrice.value < wholeHighPrice.value && wholeLowPrice.value >= 0);
-const isHighPriceValid = computed(() => wholeHighPrice.value > wholeLowPrice.value && wholeHighPrice.value >= 0);
-
+const isLowPriceValid = computed(() => wholeLowPrice.value < wholeHighPrice.value && wholeLowPrice.value >= 0 && wholeLowPrice.value);
+const isHighPriceValid = computed(() => wholeHighPrice.value > wholeLowPrice.value && wholeHighPrice.value >= 0 && wholeHighPrice.value);
 const isButtonDisabled = computed(() => !isLowPriceValid.value || !isHighPriceValid.value);
 </script>
 

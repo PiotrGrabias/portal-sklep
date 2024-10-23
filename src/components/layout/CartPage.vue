@@ -11,7 +11,7 @@
     </v-row>
     <v-row no-gutters>
       <v-col v-for="item in cartItems" :key="item.id" cols="12" sm="6" md="3">
-        <v-card class="ma-2 pa-2" hover rounded="xs">
+        <v-card class="ma-2 pa-2" hover rounded="xs" >
           <v-img
             :src="item.img"
             :aspect-ratio="16 / 9"

@@ -205,7 +205,7 @@ const validateExpiryDate = (expiry) => {
 };
 
 const totalPriceWithDelivery = computed(() => {
-  return fullPrice.value + deliveryCost.value;
+  return Math.round(Number(fullPrice.value) + Number(deliveryCost.value)).toFixed(2);
 });
 
 const delivery = ref({
