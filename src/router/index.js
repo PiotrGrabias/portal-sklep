@@ -14,6 +14,8 @@ import CartPage from '@/components/layout/CartPage.vue'
 import ProductDetails from '@/components/layout/ProductDetails.vue'
 import OrderSummary from '@/components/layout/OrderSummary.vue'
 import UserOrders from '@/components/layout/UserOrders.vue'
+import AdminLogin from '@/components/login/AdminLogin.vue'
+import AdminSite from '@/components/layout/AdminSite.vue'
 
 const routes = [
   {
@@ -55,7 +57,18 @@ const routes = [
       path: '/orders',
       name: 'Oders',
       component: UserOrders,
+    },
+    {
+      path: '/jF8r$kL1pWz3Q@h9N7xG2kD!vA6YtO*5bTzLm0s',
+      name: 'admin',
+      component: AdminLogin,
+    },
+    {
+      path: '/jF8r$kL1pWz3Q@h9N7xG2kD!vA6YtO*5bTzLm0s/admin',
+      name: 'adminSite',
+      component: AdminSite,
     }
+
 
 ]
 const router = createRouter({

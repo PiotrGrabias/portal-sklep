@@ -23,6 +23,7 @@ class AuthService {
       }).then(response => {
         if (response.data.token) {
           localStorage.setItem('user-token', response.data.token);
+          localStorage.setItem('is-admin', response.data.is_superuser)
         }
         return response.data;
       }).catch(error => {

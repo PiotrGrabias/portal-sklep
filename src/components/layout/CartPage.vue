@@ -55,14 +55,14 @@
     </v-col>
   </v-row>
   <v-row justify="center" align="center" v-if="!isLoggedIn">
-    <v-col class="mx-2" cols="12" sm="6" md="3">
+    <v-col class="mx-2" cols="12" sm="6" md="3" align="center">
       <v-btn variant="outlined" link to="/summary" color="teal"
         >Kontynuuj jako gość</v-btn
       >
     </v-col>
   </v-row>
-  <v-row>
-    <v-col cols="12" sm="6" md="3">
+  <v-row justify="center">
+    <v-col align="center" >
       <login-form v-if="!isLoggedIn" redirectPath="/summary" />
     </v-col>
   </v-row>

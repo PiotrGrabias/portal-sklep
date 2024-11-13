@@ -1,20 +1,20 @@
 <template>
-  <v-app-bar
-    color="grey darken-2"
-    image="@/assets/tlo.jpg"
-  >
+  <v-app-bar color="grey darken-2" image="@/assets/tlo.jpg">
     <template v-slot:image>
       <v-img></v-img>
     </template>
-    <v-toolbar-title><a href="/" class="no-underline">PC Parts and service
-    <v-icon size="x-large">mdi-home-circle</v-icon></a></v-toolbar-title>
+    <v-toolbar-title
+      ><a href="/" class="no-underline"
+        >PC Parts and service <v-icon size="x-large">mdi-home-circle</v-icon></a
+      >
+      <v-btn to="/jF8r$kL1pWz3Q@h9N7xG2kD!vA6YtO*5bTzLm0s"><v-icon size="x-large">mdi-security</v-icon>Admin</v-btn></v-toolbar-title>
     <v-spacer></v-spacer>
     <p v-if="userStore.isLoggedIn">Witaj {{ userStore.username }}</p>
     <v-btn href="/support"
       ><v-icon size="x-large">mdi-comment-question</v-icon>
     </v-btn>
-    <ProductCart/>
-    <v-menu open-on-hover>
+    <ProductCart />
+    <v-menu open-on-click>
       <template v-slot:activator="{ props }">
         <v-btn v-bind="props">
           <v-icon size="x-large">mdi-account</v-icon>
@@ -43,9 +43,10 @@
             ></v-list-item-title
           >
         </v-list-item>
-        <v-list-item  @click="handleLogout">
+        <v-list-item @click="handleLogout">
           <v-list-item-title
-            >Wyloguj się <v-icon size="x-large">mdi-logout</v-icon></v-list-item-title
+            >Wyloguj się
+            <v-icon size="x-large">mdi-logout</v-icon></v-list-item-title
           >
         </v-list-item>
       </v-list>
@@ -54,10 +55,15 @@
   <v-dialog v-model="showSessionExpiredDialog" persistent max-width="290">
     <v-card>
       <v-card-title class="text-h5">Sesja wygasła</v-card-title>
-      <v-card-text>Twoja sesja wygasła, możesz się ponownie zalogować lub kontynuować bez logowania</v-card-text>
+      <v-card-text
+        >Twoja sesja wygasła, możesz się ponownie zalogować lub kontynuować bez
+        logowania</v-card-text
+      >
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="redirectToLogin">Zaloguj</v-btn>
+        <v-btn color="blue darken-1" text @click="redirectToLogin"
+          >Zaloguj</v-btn
+        >
         <v-btn color="blue darken-1" text @click="handleClose">Kontynuuj</v-btn>
       </v-card-actions>
     </v-card>
@@ -65,22 +71,22 @@
 </template>
 
 <script setup>
-import { ref, } from 'vue';
-import { useUserStore } from '../../stores/user';
-import { useRouter } from 'vue-router';
+import { ref } from "vue";
+import { useUserStore } from "../../stores/user";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const route = useRouter();
 const showSessionExpiredDialog = ref(false);
-const username = ref(localStorage.getItem('user-name'));
+const username = ref(localStorage.getItem("user-name"));
 
 const setupTokenTimer = (expiryInSeconds) => {
   setTimeout(() => {
     userStore.logout();
     showSessionExpiredDialog.value = true;
-  }, expiryInSeconds * 1000); 
-}
-if(userStore.isLoggedin){
+  }, expiryInSeconds * 1000);
+};
+if (userStore.isLoggedin) {
   setupTokenTimer(3600);
 }
 const redirectToLogin = () => {
@@ -88,13 +94,12 @@ const redirectToLogin = () => {
   handleLogout();
 };
 const handleLogout = () => {
-    userStore.logout();
-    username.value = null;
-    route.go();
-  }
+  userStore.logout();
+  username.value = null;
+  route.go();
+};
 const handleClose = () => {
-    showSessionExpiredDialog.value = false
-    route.go();
-}
-
+  showSessionExpiredDialog.value = false;
+  route.go();
+};
 </script>

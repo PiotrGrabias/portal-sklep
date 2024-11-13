@@ -41,17 +41,22 @@
             hover
             rounded="xs"
             min-height="350"
-            v-if="
-              (isCategory) || !isCategory
-            "
+            v-if="isCategory || !isCategory"
           >
-          <v-row align="start">
-          <v-col>
-          <v-icon v-if="prod.attributes.sold_amount > 5" size="50" color="red" class="wave-effect">mdi-fire</v-icon>
-          <v-icon v-if="prod.attributes.sold_amount < 5 && !prod.attributes.addedlastweek" size="50" color="teal" >mdi-gold</v-icon>
-        </v-col>
-        </v-row>
-          <v-img
+            <v-row align="start">
+              <v-col>
+                <div
+                  v-if="prod.attributes.sold_amount > 5"
+                  class="d-flex align-center"
+                >
+                  <v-icon size="50" color="red" class="wave-effect"
+                    >mdi-fire</v-icon
+                  >
+                  <p class="display-1">Popularne</p>
+                </div> 
+              </v-col>
+            </v-row>
+            <v-img
               :height="150"
               aspect-ratio="16/9"
               :src="prod.attributes.image_path"
@@ -95,7 +100,7 @@
             min-height="350"
             v-if="prod.attributes.added_last_week"
           >
-          <v-icon size="50" color="blue">mdi-new-box</v-icon>
+            <v-icon size="50" color="blue">mdi-new-box</v-icon>
             <v-img
               :height="150"
               aspect-ratio="16/9"
@@ -156,7 +161,7 @@ const noItems = ref(false);
 
 onMounted(async () => {
   await productStore.getItems();
-  console.log(isCategory.value)
+  console.log(isCategory.value);
 });
 
 const getCategoryItems = async (category) => {
@@ -178,8 +183,6 @@ function handlePrice(low, high, prod) {
   producer.value = prod;
   getItemsByPrice(prod, currCategory.value, low, high);
 }
-
-
 </script>
 
 <style>
@@ -208,4 +211,5 @@ function handlePrice(low, high, prod) {
     transform: rotate(0deg) translateY(0px);
   }
 }
+
 </style>

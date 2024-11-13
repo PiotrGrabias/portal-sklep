@@ -266,8 +266,10 @@ const submitForm = async () => {
       );
       }
       const result = await response.json();
+      
       loading.value = false;
       showConfirmation.value = true;
+      cartStore.clearCart();
        redirectToHome(); 
       console.log("Zamówienie wysłane pomyślnie:", result);
     } catch (error) {
