@@ -15,7 +15,7 @@
           <v-list-item-title>Produkty</v-list-item-title>
         </v-list-item>
         <v-list-item @click="selectSection('orders')">
-          <v-list-item-title>Zarządzaj zamówieniami</v-list-item-title>
+          <v-list-item-title>Zamówienia</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -59,7 +59,14 @@
         </div>
 
         <div v-if="selectedSection === 'orders'">
-          <v-row v-for="(item, index) in orders" :key="index">
+          <v-text-field
+            v-model="emailSearch"
+            label="Wyszukaj zamawiającego"
+            outlined
+            clearable
+            placeholder="Wpisz email lub nazwisko/imie"
+          ></v-text-field>
+          <v-row v-for="(item, index) in filteredOrders" :key="index">
             <v-col cols="12">
               <v-card v-if="item && item.attributes">
                 <v-card-title>
@@ -81,28 +88,29 @@
                   </p>
                 </v-card-text>
                 <v-row>
-                    <v-col
-                      lg="4"
-                      sm="4"
-                      md="4"
-                      v-for="(productInfo, productName) in item.attributes.products"
-                      :key="productName"
-                    >
-                      <v-list-item-avatar>
-                        <v-img
-                          :height="300"
-                          :src="item.attributes.image[productName]"
-                          alt="Product Image"
-                        ></v-img>
-                      </v-list-item-avatar>
-                      <v-list-item-content>
-                        <v-list-item-title
-                          >{{ productInfo.prodName }} - 
-                          {{ productInfo.amount }} szt.</v-list-item-title
-                        >
-                      </v-list-item-content>
-                    </v-col>
-                  </v-row>
+                  <v-col
+                    lg="4"
+                    sm="4"
+                    md="4"
+                    v-for="(productInfo, productName) in item.attributes
+                      .products"
+                    :key="productName"
+                  >
+                    <v-list-item-avatar>
+                      <v-img
+                        :height="300"
+                        :src="item.attributes.image[productName]"
+                        alt="Product Image"
+                      ></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        >{{ productInfo.prodName }} -
+                        {{ productInfo.amount }} szt.</v-list-item-title
+                      >
+                    </v-list-item-content>
+                  </v-col>
+                </v-row>
               </v-card>
             </v-col>
           </v-row>
@@ -231,6 +239,27 @@ import { useProductStore } from "@/stores/product";
 const drawer = ref(false);
 const createProductDialog = ref(false);
 const editProductDialog = ref(false);
+const editableProduct = ref();
+const emailSearch = ref("");
+
+const filteredOrders = computed(() => {
+  if (!emailSearch.value) {
+    return orders.value;
+  }
+  return orders.value.filter((order) => {
+    const email = order.attributes?.email?.toLowerCase() || "";
+    const firstName = order.attributes?.first_name?.toLowerCase() || "";
+    const lastName = order.attributes?.last_name?.toLowerCase() || "";
+    const searchQuery = emailSearch.value.toLowerCase();
+
+    return (
+      email.includes(searchQuery) ||
+      firstName.includes(searchQuery) ||
+      lastName.includes(searchQuery)
+    );
+  });
+});
+
 
 const products = computed(() => useProductStore().products);
 const orders = ref([]);

@@ -35,57 +35,53 @@
 
     <v-row no-gutters>
       <v-col v-for="prod in products" :key="prod.id" cols="12" sm="6" md="3">
-        <a :href="'/products/' + prod.id" class="no-underline">
-          <v-card
-            class="ma-2 pa-2"
-            hover
-            rounded="xs"
-            min-height="350"
-            v-if="isCategory || !isCategory"
-          >
-            <v-row align="start">
-              <v-col>
-                <div
-                  v-if="prod.attributes.sold_amount > 5"
-                  class="d-flex align-center"
-                >
-                  <v-icon size="50" color="red" class="wave-effect"
-                    >mdi-fire</v-icon
-                  >
-                  <p class="display-1">Popularne</p>
-                </div> 
-              </v-col>
-            </v-row>
-            <v-img
-              :height="150"
-              aspect-ratio="16/9"
-              :src="prod.attributes.image_path"
-            ></v-img>
-            <v-card-title class="headline text-center">
-              <div v-text="prod.attributes.product_name"></div>
-            </v-card-title>
-            <v-card-subtitle class="text-center">
-              {{ prod.attributes.price }} zł
-            </v-card-subtitle>
-            <v-card-actions class="d-flex justify-center">
-              <v-btn
-                variant="elevated"
-                color="teal"
-                @click.prevent="
-                  addToCart(
-                    prod.id,
-                    prod.attributes.product_name,
-                    prod.attributes.price,
-                    prod.attributes.image_path
-                  )
-                "
-              >
-                Dodaj do koszyka
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </a>
+  <v-card
+    class="ma-2 pa-2"
+    hover
+    rounded="xs"
+    min-height="350"
+    :class="{ 'opacity-50': prod.attributes.amount <= 0 }"
+  >
+    <v-row align="start">
+      <v-col>
+        <div v-if="prod.attributes.sold_amount > 5" class="d-flex align-center">
+          <v-icon size="50" color="red" class="wave-effect">mdi-fire</v-icon>
+          <p class="display-1">Popularne</p>
+        </div>
       </v-col>
+    </v-row>
+    <v-img
+      :height="150"
+      aspect-ratio="16/9"
+      :src="prod.attributes.image_path"
+    ></v-img>
+    <v-card-title class="headline text-center">
+      <div v-text="prod.attributes.product_name"></div>
+    </v-card-title>
+    <v-card-subtitle class="text-center">
+      {{ prod.attributes.price }} zł
+    </v-card-subtitle>
+    <v-card-actions class="d-flex justify-center">
+      <v-btn
+        v-if="prod.attributes.amount > 0"
+        variant="elevated"
+        color="teal"
+        @click.prevent="
+          addToCart(
+            prod.id,
+            prod.attributes.product_name,
+            prod.attributes.price,
+            prod.attributes.image_path
+          )
+        "
+      >
+        Dodaj do koszyka
+      </v-btn>
+      <v-chip v-else color="red" outlined>Wyprzedane</v-chip>
+    </v-card-actions>
+  </v-card>
+</v-col>
+
     </v-row>
     <v-col cols="auto" class="mx-2" v-if="isCategory">
       <h1 class="display-1 text-center">Ostatnio dodane</h1>
@@ -210,6 +206,10 @@ function handlePrice(low, high, prod) {
   100% {
     transform: rotate(0deg) translateY(0px);
   }
+}
+.opacity-50 {
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 </style>
