@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="ifAdmin">
     <v-row>
       <v-col cols="12">
         <v-btn @click="toggleDrawer" icon>
@@ -235,7 +235,11 @@
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { useProductStore } from "@/stores/product";
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
 
+const userStore = useUserStore();
+const { ifAdmin } = storeToRefs(userStore);
 const drawer = ref(false);
 const createProductDialog = ref(false);
 const editProductDialog = ref(false);
