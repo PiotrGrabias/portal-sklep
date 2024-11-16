@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="grey darken-2" image="@/assets/tlo.jpg">
+  <v-app-bar color="grey-darken-2" :image=tlo>
     <template v-slot:image>
       <v-img></v-img>
     </template>
@@ -7,7 +7,10 @@
       ><a href="/" class="no-underline"
         >PC Parts and service <v-icon size="x-large">mdi-home-circle</v-icon></a
       >
-      <v-btn to="/jF8r$kL1pWz3Q@h9N7xG2kD!vA6YtO*5bTzLm0s"><v-icon size="x-large">mdi-security</v-icon>Admin</v-btn></v-toolbar-title>
+      <v-btn to="/jF8r$kL1pWz3Q@h9N7xG2kD!vA6YtO*5bTzLm0s"
+        ><v-icon size="x-large">mdi-security</v-icon>Admin</v-btn
+      ></v-toolbar-title
+    >
     <v-spacer></v-spacer>
     <p v-if="userStore.isLoggedIn">Witaj {{ userStore.username }}</p>
     <v-btn href="/support"
@@ -74,6 +77,7 @@
 import { ref } from "vue";
 import { useUserStore } from "../../stores/user";
 import { useRouter } from "vue-router";
+import tlo from '@/assets/tlo.jpg';
 
 const userStore = useUserStore();
 const route = useRouter();
