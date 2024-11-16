@@ -7,7 +7,7 @@
           <v-btn
             @click="getCategoryItems('procesor')"
             class="display-1 text-center"
-            >Procesory</v-btn
+            >Procesory </v-btn
           >
         </v-col>
         <v-col cols="auto" class="mx-2">
