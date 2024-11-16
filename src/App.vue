@@ -8,6 +8,8 @@
   </v-app>
 </template>
 
-<script setup>  //
+<script setup>
+import AppBar from '@/components/layout/AppBar.vue';
+  //
 </script>
 
