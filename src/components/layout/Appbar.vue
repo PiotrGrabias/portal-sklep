@@ -1,5 +1,8 @@
 <template>
-  <v-app-bar color="grey darken-2" class="custom-footer">
+  <v-app-bar color="grey darken-2" image="@/assets/tlo.jpg">
+    <template v-slot:image>
+      <v-img></v-img>
+    </template>
     <v-toolbar-title
       ><a href="/" class="no-underline"
         >PC Parts and service <v-icon size="x-large">mdi-home-circle</v-icon></a
@@ -100,12 +103,3 @@ const handleClose = () => {
   route.go();
 };
 </script>
-
-<style scoped>
-.custom-footer {
-  background-image: url('@/assets/tlo.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-</style>
