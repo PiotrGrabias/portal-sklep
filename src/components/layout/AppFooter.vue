@@ -23,9 +23,7 @@
 const links = [
   { name: 'Strona główna', url: '/' },
   { name: 'O nas', url: '/about' },
-  { name: 'Usługi', url: '/services' },
   { name: 'Wsparcie', url: '/support' },
-  { name: 'Kontakt', url: '/contact' }
 ];
 </script>
 

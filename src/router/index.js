@@ -16,6 +16,8 @@ import OrderSummary from '@/components/layout/OrderSummary.vue'
 import UserOrders from '@/components/layout/UserOrders.vue'
 import AdminLogin from '@/components/login/AdminLogin.vue'
 import AdminSite from '@/components/layout/AdminSite.vue'
+import SupportForm from '@/components/layout/SupportForm.vue'
+import AboutUs from '@/components/layout/AboutUs.vue'
 
 const routes = [
   {
@@ -67,6 +69,16 @@ const routes = [
       path: '/jF8r$kL1pWz3Q@h9N7xG2kD!vA6YtO*5bTzLm0s/admin',
       name: 'adminSite',
       component: AdminSite,
+    },
+    {
+      path: '/support',
+      name: 'support',
+      component: SupportForm, 
+    },
+    {
+      path: '/about',
+      name: 'aboutus',
+      component: AboutUs
     }
 
 

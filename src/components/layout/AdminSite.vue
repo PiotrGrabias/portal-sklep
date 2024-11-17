@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="ifAdmin">
+  <v-container>
     <v-row>
       <v-col cols="12">
         <v-btn @click="toggleDrawer" icon>
@@ -25,7 +25,7 @@
         <v-btn
           v-if="selectedSection === 'products'"
           color="primary"
-          @click="openCreateProductDialog"
+          @click="createProductDialog = true"
           >Dodaj produkt</v-btn
         >
 
@@ -235,11 +235,7 @@
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { useProductStore } from "@/stores/product";
-import { useUserStore } from "@/stores/user";
-import { storeToRefs } from "pinia";
 
-const userStore = useUserStore();
-const { ifAdmin } = storeToRefs(userStore);
 const drawer = ref(false);
 const createProductDialog = ref(false);
 const editProductDialog = ref(false);
@@ -314,6 +310,7 @@ const createProduct = async () => {
       }
     );
     products.value.push(response.data);
+    location.reload()
     createProductDialog.value = false;
   } catch (error) {
     console.error("Error creating product:", error);
