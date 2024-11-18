@@ -172,7 +172,7 @@ const highPrice = ref(10000);
 const selectedItems = ref([]);
 const ram = ["GOODRAM"];
 const procesory = ["Intel", "Ryzen"];
-const karty = ["MSI", "PNY", "GeForce"];
+const karty = ["MSI", "PNY", "GeForce", "Gigabyte"];
 const dyski = ["Samsung"];
 const wholeLowPrice = computed(() => Math.floor(lowPrice.value));
 const wholeHighPrice = computed(() => Math.floor(highPrice.value));

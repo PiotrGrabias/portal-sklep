@@ -7,7 +7,7 @@
             <v-toolbar-title>Formularz logowania</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form>
+            <v-form @click.enter = "handleLogin">
               <v-text-field
                 label="Nazwa użytkownika lub adres e-mail"
                 name="email"

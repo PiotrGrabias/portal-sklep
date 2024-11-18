@@ -16,7 +16,7 @@
           >
         </v-col>
         <v-col cols="auto" class="mx-2">
-          <h1 class="display-1 text-center">Bestsellery</h1>
+          <h1 class="display-1 text-center">Bestsellery i nowości</h1>
         </v-col>
         <v-col cols="auto" class="mx-2">
           <v-btn
@@ -36,6 +36,7 @@
     <v-row no-gutters>
       <v-col v-for="prod in products" :key="prod.id" cols="12" sm="6" md="3">
   <v-card
+    v-if="prod.attributes.sold_amount > 5"
     class="ma-2 pa-2"
     hover
     rounded="xs"
@@ -44,7 +45,7 @@
   >
     <v-row align="start">
       <v-col>
-        <div v-if="prod.attributes.sold_amount > 5" class="d-flex align-center">
+        <div class="d-flex align-center">
           <v-icon size="50" color="red" class="wave-effect">mdi-fire</v-icon>
           <p class="display-1">Popularne</p>
         </div>
@@ -84,7 +85,6 @@
 
     </v-row>
     <v-col cols="auto" class="mx-2" v-if="isCategory">
-      <h1 class="display-1 text-center">Ostatnio dodane</h1>
     </v-col>
     <v-row no-gutters>
       <v-col v-for="prod in products" :key="prod.id" cols="12" sm="6" md="3">
