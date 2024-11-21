@@ -31,7 +31,7 @@
         const uid = route.params.id;
         const token = route.params.token;
         try {
-          const response = await fetch(`http://localhost:8000/api/activate/${uid}/${token}`);
+          const response = await fetch(`https://pjerdson321.pythonanywhere.com/api/activate/${uid}/${token}`);
           if (response.ok) {
             message.value = 'Twoje konto zostało aktywowane, za chwilę zostaniesz przeniesiony na stronę logowania';
               setTimeout(() => {

@@ -287,7 +287,7 @@ const selectSection = (section) => {
 
 const getOrders = async () => {
   try {
-    const response = await axios.get("http://localhost:8000/api/all-orders/");
+    const response = await axios.get("https://pjerdson321.pythonanywhere.com/api/all-orders/");
     console.log("Orders response:", response.data);
     if (response.data && Array.isArray(response.data.data)) {
       orders.value = response.data.data;
@@ -304,7 +304,7 @@ const getOrders = async () => {
 const createProduct = async () => {
   try {
     const response = await axios.post(
-      "http://localhost:8000/api/create/",
+      "https://pjerdson321.pythonanywhere.com/api/create/",
       newProduct.value,
       {
         headers: { "Content-Type": "application/json" },
@@ -331,7 +331,7 @@ const editProduct = (productId) => {
 const updateProduct = async () => {
   try {
     const response = await axios.put(
-      `http://localhost:8000/api/product/${editableProduct.value.id}/update/`,
+      `https://pjerdson321.pythonanywhere.com/api/product/${editableProduct.value.id}/update/`,
       editableProduct.value,
       { headers: { "Content-Type": "application/json" } }
     );
@@ -350,7 +350,7 @@ const updateProduct = async () => {
 
 const deleteProduct = async (productId) => {
   try {
-    await axios.delete(`http://localhost:8000/api/product/${productId}/`);
+    await axios.delete(`https://pjerdson321.pythonanywhere.com/api/product/${productId}/`);
     products.value = products.value.filter(
       (product) => product.id !== productId
     );

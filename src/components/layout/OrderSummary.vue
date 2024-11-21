@@ -244,7 +244,7 @@ const submitForm = async () => {
     loading.value = true;
     console.log(delivery.value)
     try {
-      const response = await fetch("http://localhost:8000/api/submit-order", {
+      const response = await fetch("https://pjerdson321.pythonanywhere.com/api/api/submit-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -256,7 +256,7 @@ const submitForm = async () => {
         throw new Error("Błąd podczas wysyłania zamówienia.");
       }
       for (const item of cartItems.value) {
-        await fetch(`http://localhost:8000/api/products/${item.id}/decrement/`, {
+        await fetch(`https://pjerdson321.pythonanywhere.com/api/${item.id}/decrement/`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

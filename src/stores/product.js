@@ -2,7 +2,7 @@ import { mande } from 'mande'
 import { defineStore } from 'pinia'
 
 
-const api = mande('http://localhost:8000/api', {
+const api = mande('https://pjerdson321.pythonanywhere.com/api/', {
   headers: {
     'Accept': '*/*'
   }

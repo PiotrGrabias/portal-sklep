@@ -63,7 +63,7 @@ const orders = ref([]);
 
 const loadOrders = async () => {
   try {
-    const response = await axios.get("http://localhost:8000/api/user-orders", {
+    const response = await axios.get("https://pjerdson321.pythonanywhere.com/api/user-orders", {
       params: {
         userName: username.value,
       },

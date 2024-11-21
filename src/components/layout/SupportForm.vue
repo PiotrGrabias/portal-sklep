@@ -195,7 +195,7 @@
   const submitForm = async () => {
     if (formRef.value.validate()) {
         try {
-            await axios.post('http://localhost:8000/api/contact/', form);
+            await axios.post('https://pjerdson321.pythonanywhere.com/api/api/contact/', form);
             snackbar.message = "Twoja wiadomość została wysłana pomyślnie!";
             form.name = "";
             form.email = "";
