@@ -129,6 +129,9 @@ onBeforeMount(async () => {
     else if (item.category === 'ram') {
       relatedCategory.value = 'procesor';
     }
+    else if (item.category === 'dysk') {
+      relatedCategory.value = 'ram';
+    }
 
     if (relatedCategory.value) {
       await productStore.getItemsByCategory(relatedCategory.value);

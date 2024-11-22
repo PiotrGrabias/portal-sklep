@@ -65,7 +65,7 @@ const loadOrders = async () => {
   try {
     const response = await axios.get("https://pjerdson321.pythonanywhere.com/api/user-orders", {
       params: {
-        userName: username.value,
+        user: username.value,
       },
     });
     orders.value = response.data.data;

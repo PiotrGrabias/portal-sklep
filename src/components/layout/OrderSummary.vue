@@ -186,7 +186,7 @@ const { isLoggedIn } = storeToRefs(userStore)
 const { fullPrice, cartItems } = storeToRefs(cartStore);
 const loading = ref(false);
 const showConfirmation = ref(false);
-
+const username = ref(localStorage.getItem("user-name"));
 const deliveryCost = ref(12.99);
 
 const validateExpiryDate = (expiry) => {
@@ -224,6 +224,7 @@ const delivery = ref({
     amount: item.quantity,
     image: item.img,
   })),
+  user: username.value
 });
 
 const payment = ref({
@@ -244,7 +245,7 @@ const submitForm = async () => {
     loading.value = true;
     console.log(delivery.value)
     try {
-      const response = await fetch("https://pjerdson321.pythonanywhere.com/api/api/submit-order", {
+      const response = await fetch("https://pjerdson321.pythonanywhere.com/api/submit-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -256,7 +257,7 @@ const submitForm = async () => {
         throw new Error("Błąd podczas wysyłania zamówienia.");
       }
       for (const item of cartItems.value) {
-        await fetch(`https://pjerdson321.pythonanywhere.com/api/${item.id}/decrement/`, {
+        await fetch(`https://pjerdson321.pythonanywhere.com/api/products/${item.id}/decrement/`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

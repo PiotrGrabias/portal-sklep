@@ -5,7 +5,7 @@ export const useUserStore = defineStore('user', () => {
   const username = ref(localStorage.getItem('user-name') || '');
   const token = ref(localStorage.getItem('user-token') || '');
   const isLoggedIn = ref(!!token.value);
-  const ifAdmin = ref(false);
+  const ifAdmin = ref(localStorage.getItem('is-admin') === 'true');  // Ensure this is a boolean
 
   function login(user, userToken) {
     username.value = user;
@@ -24,6 +24,7 @@ export const useUserStore = defineStore('user', () => {
     localStorage.removeItem('user-token');
     localStorage.removeItem('is-admin');
   }
+
   function loginAdmin(user, userToken, isSuperuser) {
     username.value = user;
     token.value = userToken;
@@ -31,9 +32,8 @@ export const useUserStore = defineStore('user', () => {
     ifAdmin.value = isSuperuser;
     localStorage.setItem('user-name', user);
     localStorage.setItem('user-token', userToken);
-    localStorage.setItem('is-admin', isSuperuser)
+    localStorage.setItem('is-admin', isSuperuser.toString());  
   }
-
 
   return { username, token, isLoggedIn, ifAdmin, login, logout, loginAdmin };
 });
